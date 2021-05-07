@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+{% block content %}
+
+
+                        {% if user.is_authenticated %}
+                        <form method="post" action="compute">
+                           {% csrf_token %}
+                           <label class="e-field__label" for="domains">
+                           Enter domain or list of domains
+                           </label>
+                           <input class="e-input" id="domains" type="text" placeholder="emarsys.com">
+                           <label class="e-field__label" for="records">Choose record </label>
+                           <select class="e-select" id="records" name="records">
+                              <option value="MX">MX</option>
+                              <option value="NS">NS</option>
+                              <option value="TXT">TXT</option>
+                              <option value="CNAME">CNAME</option>
+                           </select>
+                           <input class="e-btn e-btn-primary" type="submit" value="Check">
+                       
+                          <label class="e-field__label" for="delimitor">Delimitor</label>
+                              <select class="e-select" id="delimitor" name="delimitor">
+                                 <option value="comma">,</option>
+                                 <option value="slash">|</option>
+                                 <option value="semicolon">;</option>
+                                 <option value="tabulation">TAB</option>
+								 <option value="tabulation">Space</option>
+                              </select>
+                              <input class="e-btn e-btn-primary" type="submit" value="Check">
+                           </form>
+						   <form method="post" action="compute">
+						   <label class="e-field__label" for="csvdomains">
+                             Upload a .csv file with a list of domains
+                              </label>
+							  <input class="e-btn-fileinput" type="file" id="csvFile" name="csvFile">
+							 </form>
+                        <div class="e-box"><a href="{% url 'logout' %}">Log Out</a></div>
+                        {% else %}
+                        <div class="e-col-4">
+                           <label class="e-field__label" for="domains">
+                           Please login
+                           </label>
+                           <form method="post" action="{% url 'login' %}">
+                              {% csrf_token %}
+                              <input class="e-btn e-btn-primary" type="submit" value="login">
+                              <input class="e-input" type="hidden" name="next" value="{{ next }}">
+                           </form>
+                        </div>
+                        {% endif %}
+                     
+{% endblock %}
