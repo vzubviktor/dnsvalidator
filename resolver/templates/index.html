@@ -1,50 +1,52 @@
 {% extends 'base.html' %}
 {% block content %}
 {% if user.is_authenticated %}
-<form method="post" action="compute">
-   {% csrf_token %}
-   <label class="e-field__label" for="domains">
-   Enter a domain or a list of domains
-   </label>
-   <input class="e-input" id="domains" type="text" placeholder="emarsys.com">
-   <label class="e-field__label" for="records">Choose record </label>
-   <select class="e-select" id="records" name="records">
-      <option value="MX">MX</option>
-      <option value="NS">NS</option>
-      <option value="TXT">TXT</option>
-      <option value="CNAME">CNAME</option>
-   </select>
-   <label class="e-field__label" for="delimitor">Delimitor</label>
-   <select class="e-select" id="delimitor" name="delimitor">
-      <option value="comma">,</option>
-      <option value="slash">|</option>
-      <option value="semicolon">;</option>
-      <option value="tabulation">TAB</option>
-      <option value="tabulation">Space</option>
-   </select>
-   <div class="e-field">
-      <input class="e-btn e-btn-primary" type="submit" value="Check" style="margin-top: 10px">
-   </div>
-</form>
-<label class="e-field__label" for="csvdomains">
-Upload a CSV file with a list of domains
-</label>
-<div class="e-box">
-   <form method="post" action="compute">
-      <input class="e-btn-fileinput input" type="file" id="csvFile" name="csvFile">
-   </form>
-</div>
-<div class="e-btn e-btn-primary"><a style="color:white;" href="{% url 'logout' %} ">Logout</a></div>
-{% else %}
 <div class="e-field">
-   <label class="e-field__label" for="domains">
-   Please login
-   </label>
-   <form method="post" action="{% url 'login' %}">
+   <form method="post" action="compute">
       {% csrf_token %}
-      <input class="e-btn e-btn-primary" type="submit" value="login">
-      <input class="e-input" type="hidden" name="next" value="{{ next }}">
+      <label for="domains">
+      Enter a domain or a list of domains
+      </label>
+      <input class="e-input" id="domains" type="text" placeholder="emarsys.com">
+      <label for="records">Choose record </label>
+      <select class="e-select" id="records" name="records">
+         <option value="MX">MX</option>
+         <option value="NS">NS</option>
+         <option value="TXT">TXT</option>
+         <option value="CNAME">CNAME</option>
+      </select>
+      <label for="delimitor">Delimitor</label>
+      <select class="e-select" id="delimitor" name="delimitor">
+         <option value="comma">,</option>
+         <option value="slash">|</option>
+         <option value="semicolon">;</option>
+         <option value="tabulation">TAB</option>
+         <option value="tabulation">Space</option>
+      </select>
+      <div class="e-field">
+         <input class="e-btn e-btn-primary" type="submit" value="Check" style="margin-top: 10px">
+      </div>
    </form>
+   <label for="csvFile">
+   Upload a CSV file with a list of domains
+   </label>
+   <div class="e-box">
+      <form method="post" action="compute">
+         <input class="e-btn-fileinput input" type="file" id="csvFile" name="csvFile">
+      </form>
+   </div>
+   <div class="e-btn e-btn-primary"><a style="color:white;" href="{% url 'logout' %} ">Logout</a></div>
+   {% else %}
+   <div style="width:10%; margin:0 auto;">
+      <label for="login">
+      Please login
+      </label>
+      <form method="post" action="{% url 'login' %}">
+         {% csrf_token %}
+         <input class="e-btn e-btn-primary" id="login" type="submit" value="login">
+         <input class="e-input" type="hidden" name="next" value="{{ next }}">
+      </form>
+   </div>
 </div>
 {% endif %}
 {% endblock %}
