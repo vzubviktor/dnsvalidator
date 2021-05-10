@@ -7,7 +7,7 @@
       <label for="domains">
       Enter a domain or a list of domains
       </label>
-      <input class="e-input" id="domains" type="text" placeholder="emarsys.com">
+      <input class="e-input" id="domains" name="domains" type="text" placeholder="emarsys.com">
       <label for="records">Choose record </label>
       <select class="e-select" id="records" name="records">
          <option value="MX">MX</option>
@@ -17,11 +17,11 @@
       </select>
       <label for="delimitor">Delimitor</label>
       <select class="e-select" id="delimitor" name="delimitor">
-         <option value="comma">,</option>
-         <option value="slash">|</option>
-         <option value="semicolon">;</option>
-         <option value="tabulation">TAB</option>
-         <option value="tabulation">Space</option>
+         <option value=",">,</option>
+         <option value="|">|</option>
+         <option value=";">;</option>
+         <option value="   ">TAB</option>
+         <option value=" ">Space</option>
       </select>
       <div class="e-field">
          <input class="e-btn e-btn-primary" type="submit" value="Check" style="margin-top: 10px">

@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+{% load resolver_extras %}
+
+{% block content %}
+
+{% for obj in obj_list %} 
+{{ obj.record_name }} | {{ obj.record_result }}<br>
+
+{% endfor %}
+
+{% endblock %}
