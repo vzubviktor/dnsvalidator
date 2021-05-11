@@ -23,10 +23,13 @@ pre {
   display: block;
   margin-left: auto;
   margin-right: auto;
-  width: 50%;
   text-align: center;
 }
 
 img {
 	border-radius: 8px;
+}
+
+label {
+	font-weight: 500;
 }
