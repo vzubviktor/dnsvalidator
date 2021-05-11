@@ -27,7 +27,14 @@ def compute(request):
 
 	record_result = [get_records(i) for i in domain_list] # list of records
 
-	end_result = zip(domain_list, record_result)
+	# end_result = zip(domain_list, record_result)
+
+	# def cleaned_record_result(result_list):
+	# 	output = ''
+	# 	for i in result_list:
+	# 		output = output + i + '<br>'
+	# 	return output
+
 
 
 
@@ -36,7 +43,7 @@ def compute(request):
 
 	for obj in domain_list:
 		
-		obj = Domain( record_name = obj, record_type= record_val, record_result = get_records(obj))
+		obj = Domain( record_name = obj, record_type= record_val, record_result =  get_records(obj))
 		obj_list.append(obj)
 		
 
@@ -47,7 +54,7 @@ def compute(request):
 	'domain_list' : domain_list, 
 	# 'obj_list' : obj_list,
 	'record_result' : record_result,
-	'end_result' : end_result, 
+	# 'end_result' : end_result, 
 	'obj_list' : obj_list, 
 	 })
 # Create your views here.

@@ -3,8 +3,25 @@
 
 {% block content %}
 
+<table class="e-table">
+  <tr>
+    <th class="e-table th">Domain</th>
+    <th class="e-table th">DNS record </th>
+    <th class="e-table th">Status</th>
+    <th class="e-table th">Comment</th>
+  </tr>
+
+
 {% for obj in obj_list %} 
-{{ obj.record_name }} | {{ obj.record_result }}<br>
+
+<tr>
+    <td class="e-table td">{{ obj.record_name }}</td>
+    <td class="e-table td">{% for item in  obj.record_result %} {{item}} <br>  {% endfor %}</td>
+    <td class="e-table td">Some Status</td>
+    <td class="e-table td">Some comment</td>
+  </tr>
+
+
 
 {% endfor %}
 
