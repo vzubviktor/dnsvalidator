@@ -1,63 +1,68 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-<title>DNS RECORDS</title>
-<head>
-
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-	<meta name="robots" content="noindex,nofollow">
-
-	<title></title>
-
-	<link rel="stylesheet" href="/css/style.css">
-
-	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/css/bootstrap.min.css" integrity="sha384-Smlep5jCw/wG7hdkwQ/Z5nLIefveQRIY9nfy6xoR1uRYBtpZgI6339F5dgvm/e9B" crossorigin="anonymous">
-
-	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-
-	<link rel='stylesheet' href='https://redirector.eservice.emarsys.net/ui/latest/css/app.css'>
-	<script src='https://redirector.eservice.emarsys.net/ui/latest/js/app.js'></script>
-</head>
-
-
-<body>
-   <div id="main">
-      <div class="e-layout">
-         <div class="wrap" style="margin:20px 20px;">
-            <div class="e-box">
-               <div class="e-row">
-                  <div class="e-col-12">
-                     <div class="e-field">
-
-	<table class="e-table">
-  <tr>
-    <th class="e-table th">Domain</th>
-    <th class="e-table th">DNS record </th>
-    <th class="e-table th">Status</th>
-    <th class="e-table th">Comment</th>
-  </tr>
-  <tr>
-    <td class="e-table td">1</td>
-    <td class="e-table td">2</td>
-    <td class="e-table td">Wrong returnpath configuration</td>
-    <td class="e-table td">no matching MX records found</td>
-  </tr>
-  <tr>
-    <td class="e-table td">3</td>
-    <td class="e-table td">4</td>
-    <td class="e-table td">Correct returnpath configuration *</td>
-    <td class="e-table td">required MX records are present but there are additional records with higher priority</td>
-  </tr>
-</table>
-
-	                
-	                 </div>
+   <head>
+      <title>DNS RECORDS</title>
+      <head>
+         <meta charset="utf-8">
+         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+         <meta name="robots" content="noindex,nofollow">
+         <title></title>
+         <link rel="stylesheet" href="/css/style.css">
+         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/css/bootstrap.min.css" integrity="sha384-Smlep5jCw/wG7hdkwQ/Z5nLIefveQRIY9nfy6xoR1uRYBtpZgI6339F5dgvm/e9B" crossorigin="anonymous">
+         <link rel='stylesheet' href='https://redirector.eservice.emarsys.net/ui/latest/css/app.css'>
+   </head>
+   <body>
+      <div id="main">
+         <div class="e-layout">
+            <div class="wrap" style="margin:20px 20px;">
+               <div class="e-box">
+                  <div class="e-row">
+                     <div class="e-col-12">
+                        <div class="e-field">
+                           <table class="e-table">
+                              <tr>
+                                 <th class="e-table th">Domain</th>
+                                 <th class="e-table th">DNS record </th>
+                                 <th class="e-table th">Status</th>
+                                 <th class="e-table th">Comment</th>
+                              </tr>
+                              <tr>
+                                 <td class="e-table td">1</td>
+                                 <td class="e-table td">2</td>
+                                 <td class="e-table td">Wrong returnpath configuration</td>
+                                 <td class="e-table td">no matching MX records found</td>
+                              </tr>
+                              <tr>
+                                 <td class="e-table td">3</td>
+                                 <td class="e-table td">4</td>
+                                 <td class="e-table td">Correct returnpath configuration *</td>
+                                 <td class="e-table td">required MX records are present but there are additional records with higher priority</td>
+                              </tr>
+                           </table>
+                           <input class="e-btn e-btn-primary" id="copy_btn" type="button" value="copy">
+                        </div>
+                     </div>
                   </div>
                </div>
             </div>
          </div>
       </div>
-   </div>
- </body>
+      <script>
+         var copyBtn = document.querySelector('#copy_btn');
+         copyBtn.addEventListener('click', function () {
+          var urlField = document.querySelector('table');
+           
+          // create a Range object
+          var range = document.createRange();  
+          // set the Node to select the "range"
+          range.selectNode(urlField);
+          // add the Range to the set of window selections
+          window.getSelection().addRange(range);
+           
+          // execute 'copy', can't 'cut' in this case
+          document.execCommand('copy');
+         }, false);
+      </script>
+      </script>
+   </body>
 </html>
