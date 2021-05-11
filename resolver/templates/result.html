@@ -3,7 +3,7 @@
 
 {% block content %}
 
-<table class="e-table">
+<table class="e-table" id=copyTable>
   <tr>
     <th class="e-table th">Domain</th>
     <th class="e-table th">DNS record </th>
@@ -24,5 +24,6 @@
 
 
 {% endfor %}
-
+</table>
+<input class="e-btn e-btn-primary" type="button" value="Copy" onClick="copytable('copyTable')">
 {% endblock %}

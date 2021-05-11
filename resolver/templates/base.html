@@ -1,36 +1,29 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-<title>DNS RECORDS</title>
-<head>
-
-   <meta charset="utf-8">
-   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-   <meta name="robots" content="noindex,nofollow">
-
-   <title></title>
-
-   <link rel="stylesheet" href="/css/style.css">
-
-   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/css/bootstrap.min.css" integrity="sha384-Smlep5jCw/wG7hdkwQ/Z5nLIefveQRIY9nfy6xoR1uRYBtpZgI6339F5dgvm/e9B" crossorigin="anonymous">
-
-   <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-
-   <link rel='stylesheet' href='https://redirector.eservice.emarsys.net/ui/latest/css/app.css'>
-   <script src='https://redirector.eservice.emarsys.net/ui/latest/js/app.js'></script>
-</head>
-
-
-<body>
-   <div id="main">
-      <div class="e-layout">
-         <div class="wrap" style="margin:20px 20px;">
-            <div class="e-box">
-               <div class="e-row">
-                  <div class="e-col-12">
-                     <div class="e-field">
-                        {% block content %}
-                        {% endblock content %}
+   <head>
+      <title>DNS RECORDS</title>
+      <head>
+         <title>DNS RECORDS</title>
+         <meta charset="utf-8">
+         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+         <meta name="robots" content="noindex,nofollow">
+         <link rel='stylesheet' href='https://redirector.eservice.emarsys.net/ui/latest/css/app.css'>
+         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/css/bootstrap.min.css" integrity="sha384-Smlep5jCw/wG7hdkwQ/Z5nLIefveQRIY9nfy6xoR1uRYBtpZgI6339F5dgvm/e9B" crossorigin="anonymous">
+         <!--<link rel="stylesheet" href="/dnsnew/dnsvalidator/resolver/templates/css">-->
+         <!--<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+            <script src='https://redirector.eservice.emarsys.net/ui/latest/js/app.js'></script>-->
+   </head>
+   <body>
+      <div id="main">
+         <div class="e-layout">
+            <div class="wrap" style="margin:20px 20px;">
+               <div class="e-box">
+                  <div class="e-row">
+                     <div class="e-col-12">
+                        <div class="e-field">
+                           {% block content %}
+                           {% endblock content %}
+                        </div>
                      </div>
                   </div>
                </div>
@@ -38,20 +31,14 @@
          </div>
       </div>
       <script>
-         var copyBtn = document.querySelector('#copy_btn');
-         copyBtn.addEventListener('click', function () {
-          var urlField = document.querySelector('table');
-           
-          // create a Range object
-          var range = document.createRange();  
-          // set the Node to select the "range"
-          range.selectNode(urlField);
-          // add the Range to the set of window selections
-          window.getSelection().addRange(range);
-           
-          // execute 'copy', can't 'cut' in this case
-          document.execCommand('copy');
-         }, false);
+         function copytable(el) {
+         var urlField = document.getElementById(el)   
+         var range = document.createRange()
+         range.selectNode(urlField)
+         window.getSelection().removeAllRanges();
+         window.getSelection().addRange(range) 
+         document.execCommand('copy')
+         }
       </script>
    </body>
 </html>
