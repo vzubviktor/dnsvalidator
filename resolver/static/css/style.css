@@ -1,35 +1,122 @@
-body, html {
-    height:100%;
+body,
+html {
+    height: 100%;
     background: #f1f6fb;
 }
 
 pre {
-    margin:0;
+    margin: 0;
 }
 
 .hidden {
     visibility: hidden;
-    display:none;
+    display: none;
 }
 
 #authfooter {
-    text-align:right;
-    padding:10px;
+    text-align: right;
+    padding: 10px;
     margin-top: 20px;
-    font-size:0.7em;
+    font-size: 0.7em;
 }
 
 .center {
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
-  text-align: center;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
 }
 
 img {
-	border-radius: 8px;
+    border-radius: 8px;
 }
 
 label {
-	font-weight: 500;
+    font-weight: 600;
+    margin-top: 10px;
+}
+
+.btn-lila {
+    background: var(--color-lila, #6f8de7);
+    border-color: transparent;
+    color: var(--color-gray-000, #ffffff);
+    font-weight: 500;
+}
+
+.btn-lila:hover,
+.btn-lila:focus {
+    background: var(--color-lila-700, #39539f);
+    color: var(--color-gray-000, #ffffff);
+}
+
+.btn-green {
+    background: var(--color-green, #32d17e);
+    border-color: transparent;
+    color: var(--color-gray-000, #ffffff);
+    font-weight: 500;
+}
+
+.btn-green:focus,
+.btn-green:hover {
+    color: #fff;
+    background-color: #28b46b;
+    border-color: #26aa65;
+}
+
+.btn-yellow {
+    color:#212529;
+    background-color:#d9e506;
+    border-color:#d9e506}
+
+.btn-yellow:focus,
+.btn-yellow:hover {
+    color:#212529;
+    background-color:#b6c005;
+    border-color:#aab305}
+
+
+h3 {
+    font-weight: 600;
+}
+
+input {
+    margin-top: 10px;
+}
+
+/* Style the tab */
+.tab {
+  overflow: hidden;
+  background-color: white;
+  width: 40%;
+}
+
+/* Style the buttons inside the tab */
+.tab button {
+  background-color: inherit;
+  float: left;
+  outline: none;
+  cursor: pointer;
+  padding: 14px 16px;
+  transition: 0.3s;
+  font-size: 17px;
+  border-radius: 8px;
+  width: 50%;
+  border: 1px solid #c4d0dd;
+}
+
+/* Change background color of buttons on hover */
+.tab button:hover {
+  background-color: #32d71e;
+}
+
+/* Create an active/current tablink class */
+.tab button.active {
+  background-color: #28b46b;
+}
+
+/* Style the tab content */
+.tabcontent {
+  display: none;
+  padding: 6px 12px;
+  border-top: none;
 }
