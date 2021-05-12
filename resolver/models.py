@@ -4,6 +4,9 @@ class Domain(models.Model):
 	record_name = models.CharField(max_length=1000)
 	record_type = models.CharField(max_length=1000)
 	record_result = models.CharField(max_length=10000)
+	status = models.CharField(max_length=100000,  null = True)
+	comment = models.CharField(max_length=100000, null = True)
+
 
 	def __str__(self):
 	 	return self.record_name
