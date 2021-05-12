@@ -10,3 +10,16 @@ class Domain(models.Model):
 
 	def get_result(self):
 	 	return self.record_result
+
+class MXrecord(models.Model):
+	# record_name = models.CharField(max_length=1000, null=True)
+	priority = models.CharField(max_length=1000)
+	domain   = models.CharField(max_length=1000)
+
+	def __str__(self):
+	 	return self.priority
+
+	def __str__(self):
+	 	return self.domain
+
+
