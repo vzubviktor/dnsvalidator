@@ -265,8 +265,7 @@ def compute(request):
 		else:
 			pass
 
-		# Table 11 case
-
+		# Table 11 case 
 		if 'mx.eemms.net.' in domain_list and (len(set(domain_list)) > 1):
 			emarsys_list = []
 			other_list = []
@@ -284,15 +283,20 @@ def compute(request):
 		else:
 			pass
 
-		# Table 13 case
+		# Table 13 case 
 
-		if 'emarsys.net.' in domain_list:
-			if 'return1.emarsys.net.' in domain_list and 'return0.emarsys.net.' in domain_list:
-				if len(domain_list) == 2:
-					pass
-				else:
-					if (len(set(priority_list)) == 1):
-
+		if 'return1.emarsys.net.' in domain_list and 'return0.emarsys.net.' in domain_list:
+			if len(domain_list) == 2:
+				pass
+			else:
+				if (len(set(priority_list)) == 1):
+					emarsys_list = []
+					for i in domain_list:
+						if 'emarsys.net' in i:
+							emarsys_list.append(i)
+						else:
+							pass
+					if len(emarsys_list) == len(domain_list):
 						status = 'Old returnpath configuration'
 						comment = 'New MX setup should be advised'
 					else:
@@ -301,6 +305,31 @@ def compute(request):
 				pass
 		else:
 			pass
+
+		# Table 14 case
+
+		if 'return1.emarsys.net.' in domain_list and 'return0.emarsys.net.' in domain_list:
+			if len(domain_list) == 2:
+				pass
+			else:
+				if (len(set(priority_list)) != 1):
+					emarsys_list = []
+					for i in domain_list:
+						if 'emarsys.net' in i:
+							emarsys_list.append(i)
+						else:
+							pass
+					if len(emarsys_list) == len(domain_list):
+						status = 'Incomplete old returnpath configuration '
+						comment = 'Priorities are invalid. New MX setup should be advised'
+					else:
+						pass
+			else:
+				pass
+		else:
+			pass
+
+
 						
 
 
