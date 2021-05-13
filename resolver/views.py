@@ -40,11 +40,12 @@ def compute(request):
 		mx_objects = []
 
 		for result in result_list:
-			if isinstance(result, dns.resolver.NXDOMAIN):
+			try: 
+				mx_split.append(result.split(' '))
+				
+			except:
 				mx_object = MXrecord( priority = 'error', domain = result)
 				mx_objects.append(mx_object)
-			else:
-				mx_split.append(result.split(' '))
 
 
 		if mx_split:
@@ -215,7 +216,7 @@ def compute(request):
 		else:
 			pass
 
-		
+
 
 
 		output.append(status)
