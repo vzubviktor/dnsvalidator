@@ -1,32 +1,84 @@
 <!DOCTYPE html>
 <html lang="en">
-   <head>
-      <title>DNS Checker</title>
-      <meta charset="utf-8">
-      <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-      <meta name="robots" content="noindex,nofollow">
-      <link rel='stylesheet' href='https://redirector.eservice.emarsys.net/ui/latest/css/app.css'>
-      <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/css/bootstrap.min.css" integrity="sha384-Smlep5jCw/wG7hdkwQ/Z5nLIefveQRIY9nfy6xoR1uRYBtpZgI6339F5dgvm/e9B" crossorigin="anonymous">
-      {% load static %}
-      <link rel="stylesheet" href="{% static '/css/style.css' %}">
-      <link rel="shortcut icon" href="{% static '/media/chewie.png' %}">
-      <script src="{% static '/js/noobie.js' %}"></script>
-      <!--<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>-->
-   </head>
-   <body>
-      <div id="main">
-         <div class="e-layout">
-            <div class="wrap" style="margin:20px 20px;">
-               <div class="e-box">
-                  <div class="e-row">
-                     <div class="e-col-12">
-                        <div class="e-field"> {% block content %} {% endblock content %}
+<!--
+        ___          
+    . -^   `--,      
+   /# =========`-_   
+  /# (--====___====\ 
+ /#   .- --.  . --.| 
+/##   |  * ) (   * ),
+|##   \    /\ \   / |
+|###   ---   \ ---  |
+|####      ___)    #|
+|######           ##|
+ \##### ---------- / 
+  \####           (  
+   `\###          |  
+     \###         |  
+      \##        |   
+       \###.    .)   
+        `======/    
+-->
+    <head>
+        <title>DNS Checker</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta name="robots" content="noindex,nofollow">
+        <link rel='stylesheet' href='https://redirector.eservice.emarsys.net/ui/latest/css/app.css'>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/css/bootstrap.min.css" integrity="sha384-Smlep5jCw/wG7hdkwQ/Z5nLIefveQRIY9nfy6xoR1uRYBtpZgI6339F5dgvm/e9B" crossorigin="anonymous">
+        {% load static %}
+        <link rel="stylesheet" href="{% static '/css/style.css' %}">
+        <link rel="shortcut icon" href="{% static '/media/chewie.png' %}">
+        <script src="{% static '/js/noobie.js' %}"></script>
+        <!--<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>-->
+    </head>
+    <body>
+        <div id="main">
+            <div class="e-layout">
+                <div class="wrap" style="margin:20px 20px;">
+                    <div class="e-box">
+                        <div class="e-row">
+                            <div class="e-col-12">
+                                <div class="e-field"> {% block content %} {% endblock content %}
+                                </div>
+                            </div>
                         </div>
-                     </div>
-                  </div>
-               </div>
+                    </div>
+                </div>
             </div>
-         </div>
-      </div>
-   </body>
+        </div>
+        <script type="text/javascript">
+            // Download CSV
+            function download_csv(csv, filename) {
+            var csvFile;
+            var downloadLink;
+            csvFile = new Blob([csv], {type: "text/csv"});
+            downloadLink = document.createElement("a");
+            downloadLink.download = filename;
+            downloadLink.href = window.URL.createObjectURL(csvFile);
+            downloadLink.style.display = "none";
+            document.body.appendChild(downloadLink);
+            downloadLink.click();
+            }
+            
+            function export_table_to_csv(html, filename) {
+            var csv = [];
+            var rows = document.querySelectorAll("table tr");
+            
+            for (var i = 0; i < rows.length; i++) {
+            var row = [], cols = rows[i].querySelectorAll("td, th");
+            
+             for (var j = 0; j < cols.length; j++) 
+            row.push('"' + cols[j].innerText + '"');        
+            csv.push(row.join(","));      
+            }
+            download_csv(csv.join("\n"), filename);
+            }
+            
+            document.getElementById("downloadTable").addEventListener("click", function () {
+            var html = document.querySelector("table").outerHTML;
+            export_table_to_csv(html, "dnscheck.csv");
+            });
+        </script>
+    </body>
 </html>
