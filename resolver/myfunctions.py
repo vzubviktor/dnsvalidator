@@ -1,21 +1,3 @@
-from django.shortcuts import render
-from .models import Domain, MXrecord
-import dns.resolver
-# import myfunctions
-
-def index(request):
-	return render(request, 'index.html')
-
-def compute(request):
-
-### Gets Raw data from input and cleans for processsing	
-
-	domain_val = request.POST['domains']
-	record_val = request.POST['records']
-	delimitor = request.POST['delimitor']
-	domain_list=domain_val.split(delimitor) # cleaned list of domains 
-
-	
 ### gets dns records for domain value
 
 	def get_records(domain):
@@ -302,8 +284,8 @@ def compute(request):
 						comment = 'New MX setup should be advised'
 					else:
 						pass
-				else:
-					pass
+			else:
+				pass
 		else:
 			pass
 
@@ -325,8 +307,8 @@ def compute(request):
 						comment = 'Priorities are invalid. New MX setup should be advised'
 					else:
 						pass
-				else:
-					pass
+			else:
+				pass
 		else:
 			pass
 
@@ -346,62 +328,3 @@ def compute(request):
 		output.append(status)
 		output.append(comment)
 		return output 
-
-
-
-
-
-
-
-
-
-
-
-
-
-	
-
-
-
-### finalizes object for output to frontend
-
-	
-	obj_list = []
-
-	for obj in domain_list:
-		record_result = get_records(obj)
-		mx_objects = mx_create(record_result)
-		stat_and_comm = mx_rules(mx_objects)
-		obj = Domain( record_name = obj, record_type= record_val, record_result =  record_result, status = stat_and_comm[0], comment = stat_and_comm[1] )
-		obj_list.append(obj)
-
-	
-
-
-
-
-
-
-
-
-
-
-
-
-
-		
-
-	return render(request, 'result.html', { 
-
-	'record_val' : record_val, 
-		# 'output' : output, 
-	'domain_list' : domain_list, 
-	# 'obj_list' : obj_list,
-	# 'record_result' : record_result,
-	# 'end_result' : end_result, 
-	'obj_list' : obj_list, 
-	
-	
-
-	 })
-# Create your views here.
