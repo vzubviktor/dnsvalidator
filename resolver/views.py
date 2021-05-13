@@ -66,11 +66,24 @@ def compute(request):
 		priority_list = [ i.priority for i  in objects]
 		domain_list = [ i.domain for i in objects]
 
+		# Extra case to handle errors
+
+
+
 		# Table case 1
 
-		if 'emarsys.net.' not  in domain_list or 'mx.eemms.net.' not in domain_list :  ### REWRITE TIS RULE TO LOOK PRETTY + Rewrite the rule
-			status = 'Wrong returnpath configuration'
-			comment = 'no matching MX records found'
+		if 'emarsys.net.' not  in domain_list or 'mx.eemms.net.' not in domain_list : 
+			try:
+				for i in objects:
+					if 'emarsys.net' in i.domain or 'mx.eemms.net.' in i.domain:
+						pass
+				else:
+					status = 'Wrong returnpath configuration'
+					comment = 'no matching MX records found'
+			except:
+				status = 'Wrong returnpath configuration'
+				comment = 'no matching MX records found'
+
 		else:
 			pass
 
@@ -89,7 +102,7 @@ def compute(request):
 		if (len(set(domain_list))==1):
 			if 'mx.eemms.net.' in domain_list:
 				status = 'Wrong returnpath configuration'
-				comment = 'MX record found matching suite Reply Management'
+				comment = 'MX record  matching the Suite Reply Management'
 		else:
 			pass
 
@@ -99,7 +112,7 @@ def compute(request):
 			if (len(set(domain_list)) > 2):
 				if (len(set(priority_list))==1):
 					status = 'Wrong returnpath configuration'
-					comment = 'mx.eemms.net (or the domain there) should be removed'
+					comment = 'The extra domains should be removed'
 				else:
 					emarsys_list = []
 					other_list = []
@@ -111,7 +124,7 @@ def compute(request):
 					if emarsys_list[0] == emarsys_list[1]:
 						if emarsys_list[0] in other_list:
 							status = 'Wrong returnpath configuration'
-							comment = 'mx.eemms.net (or the domain there) should be removed'
+							comment = 'The extra domains should be removed'
 						else:
 							pass
 					else:
@@ -145,11 +158,66 @@ def compute(request):
 		else:
 			pass
 
+		# Table case 5a
+
+		if 'return1.emarsys.net.' in domain_list and 'return0.emarsys.net.' in domain_list: 
+			if (len(set(domain_list)) > 2):
+				emarsys_list = []
+				other_list = []
+				for i in objects:
+					if i.domain == 'return0.emarsys.net.' or i.domain == 'return1.emarsys.net.':
+						emarsys_list.append(int(i.priority))
+					else:
+						other_list.append(int(i.priority))
+				if (len(set(emarsys_list)) > 1):
+
+					for li in other_list:
+						if li > emarsys_list[0] and li > emarsys_list[1]:
+							status = 'Incomplete returnpath configuration'
+							comment = 'Required MX records are found but the priority is wrong and there are also other records with lower priority'
+						else:
+							pass
+				else: 
+					pass			
+			else:
+				pass
+		else:
+			pass
+
+
+		# Table case 5b
+
+		if 'return1.emarsys.net.' in domain_list and 'return0.emarsys.net.' in domain_list: 
+			if (len(set(domain_list)) > 2):
+				emarsys_list = []
+				other_list = []
+				for i in objects:
+					if i.domain == 'return0.emarsys.net.' or i.domain == 'return1.emarsys.net.':
+						emarsys_list.append(int(i.priority))
+					else:
+						other_list.append(int(i.priority))
+				if (len(set(emarsys_list)) == 1):
+
+					for li in other_list:
+						if li < emarsys_list[0] and li < emarsys_list[1]:
+							status = 'Wrong returnpath configuration'
+							comment = 'Emarsys records should have have the highest priority (the lower number the higher priority) '
+						else:
+							pass
+				else: 
+					pass			
+			else:
+				pass
+		else:
+			pass
+
+
+
 
 		# Table 6 case
 
 		if 'return0.emarsys.net.' in domain_list and 'return1.emarsys.net.' not in domain_list: 
-			status = 'Invalid returnpath configuration'
+			status = 'Incomplete returnpath configuration'
 			comment ='return1.emarsys.net record is missing'
 		else:
 			pass
@@ -157,7 +225,7 @@ def compute(request):
 		# Table 7 case
 
 		if 'return1.emarsys.net.' in domain_list and 'return0.emarsys.net.' not in domain_list: 
-			status = 'Invalid returnpath configuration'
+			status = 'Incomplete returnpath configuration'
 			comment ='return0.emarsys.net record is missing'
 		else:
 			pass
@@ -175,7 +243,7 @@ def compute(request):
 			for li in other_list:
 				if li > emarsys_list[0]:
 					status = 'Wrong returnpath configuration'
-					comment = 'MX record found matching suite Reply Management, but there are also other mx records with lower priorities'
+					comment = 'MX record matching the Suite Reply Management, but there are also other records with a lower priority. Replies will be managed by Emarsys'
 				else:
 					pass
 		else:
@@ -188,8 +256,8 @@ def compute(request):
 		if 'return1.emarsys.net.' in domain_list and 'return0.emarsys.net.' in domain_list:
 			if (len(set(domain_list)) == 2):
 				if (len(set(priority_list))!=1):
-					status = 'Invalid returnpath configuration'
-					comment = 'require MX records are found but the priority is wrong'
+					status = 'Incomplete returnpath configuration'
+					comment = 'Required MX records are found but the priority is invalid. Emarsys records should have the highest priority'
 				else:
 					pass
 			else:
@@ -210,11 +278,35 @@ def compute(request):
 			for li in other_list:
 				if li < emarsys_list[0]:
 					status = 'Wrong returnpath configuration'
-					comment = 'MX record found matching suite Reply Management, but there are also other mx records with higher priorities. Reply management will not be managed by Emarsys'
+					comment = 'MX record matching the Suite Reply Management, but it has a lower priority. Replies will not be managed by Emarsys'
 				else:
 					pass
 		else:
 			pass
+
+		# Table 13 case
+
+		if 'emarsys.net.' in domain_list:
+			if 'return1.emarsys.net.' in domain_list and 'return0.emarsys.net.' in domain_list:
+				if len(domain_list) == 2:
+					pass
+				else:
+					if (len(set(priority_list)) == 1):
+
+						status = 'Old returnpath configuration'
+						comment = 'New MX setup should be advised'
+					else:
+						pass
+			else:
+				pass
+		else:
+			pass
+						
+
+
+
+
+
 
 
 
