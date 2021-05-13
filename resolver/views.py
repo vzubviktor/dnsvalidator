@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from .models import Domain, MXrecord
+import dns.resolver
 
 def index(request):
 	return render(request, 'index.html')
@@ -17,7 +18,7 @@ def compute(request):
 ### gets dns records for domain value
 
 	def get_records(domain):
-		import dns.resolver
+		# import dns.resolver
 		final_answers=[]
 
 		try:
@@ -37,11 +38,22 @@ def compute(request):
 	def mx_create(result_list): 
 		mx_split = []
 		mx_objects = []
+
 		for result in result_list:
-			mx_split.append(result.split(' '))
-		for mx in mx_split:
-			mx_object = MXrecord(  priority = mx[0], domain = mx[1])
-			mx_objects.append(mx_object)
+			if isinstance(result, dns.resolver.NXDOMAIN):
+				mx_object = MXrecord( priority = 'error', domain = result)
+				mx_objects.append(mx_object)
+			else:
+				mx_split.append(result.split(' '))
+
+
+		if mx_split:
+			for mx in mx_split:
+				mx_object = MXrecord(  priority = mx[0], domain = mx[1])
+				mx_objects.append(mx_object)
+		
+
+
 		return mx_objects
 
 ### define rules and  process mx record objects through rules
@@ -55,14 +67,11 @@ def compute(request):
 
 		# Table case 1
 
-		for i in objects:
-			if 'emarsys.net'  in i.domain:  ### REWRITE TIS RULE TO LOOK PRETTY + Rewrite the rule
-				pass
-			elif 'mx.eemms.net'	in i.domain:
-				pass
-			else:
-				status = 'Wrong returnpath configuration'
-				comment = 'no matching MX records found'
+		if 'emarsys.net.' not  in domain_list or 'mx.eemms.net.' not in domain_list :  ### REWRITE TIS RULE TO LOOK PRETTY + Rewrite the rule
+			status = 'Wrong returnpath configuration'
+			comment = 'no matching MX records found'
+		else:
+			pass
 
 		# Table case 2
 
@@ -151,6 +160,31 @@ def compute(request):
 			comment ='return0.emarsys.net record is missing'
 		else:
 			pass
+
+		# Table 8 case
+
+		if 'mx.eemms.net.' in domain_list and (len(set(domain_list)) > 1):
+			emarsys_list = []
+			other_list = []
+			for i in objects:
+				if i.domain == 'mx.eemms.net.':
+					emarsys_list.append(int(i.priority))
+				else:
+					other_list.append(int(i.priority))
+			for li in other_list:
+				if li > emarsys_list[0]:
+					status = 'Wrong returnpath configuration'
+					comment = 'MX record found matching suite Reply Management, but there are also other mx records with lower priorities'
+				else:
+					pass
+		else:
+			pass
+
+		# Table 9 case
+
+
+
+
 
 
 
