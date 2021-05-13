@@ -180,35 +180,42 @@ def compute(request):
 		else:
 			pass
 
-		# Table 9 case
+		# Table 9 case - refered to table case 1
 
+		# Table 10 case 
 
+		if 'return1.emarsys.net.' in domain_list and 'return0.emarsys.net.' in domain_list:
+			if (len(set(domain_list)) == 2):
+				if (len(set(priority_list))!=1):
+					status = 'Invalid returnpath configuration'
+					comment = 'require MX records are found but the priority is wrong'
+				else:
+					pass
+			else:
+				pass
+		else:
+			pass
 
+		# Table 11 case
 
+		if 'mx.eemms.net.' in domain_list and (len(set(domain_list)) > 1):
+			emarsys_list = []
+			other_list = []
+			for i in objects:
+				if i.domain == 'mx.eemms.net.':
+					emarsys_list.append(int(i.priority))
+				else:
+					other_list.append(int(i.priority))
+			for li in other_list:
+				if li < emarsys_list[0]:
+					status = 'Wrong returnpath configuration'
+					comment = 'MX record found matching suite Reply Management, but there are also other mx records with higher priorities. Reply management will not be managed by Emarsys'
+				else:
+					pass
+		else:
+			pass
 
-
-
-
-
-
-
-
-
-
-
-
-
-			
-
-
-
-
-
-
-
-
-
-
+		
 
 
 		output.append(status)
