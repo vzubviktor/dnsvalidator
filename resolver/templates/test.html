@@ -1,68 +1,173 @@
-<!DOCTYPE html>
-<html lang="en">
-   <head>
-      <title>DNS RECORDS</title>
-      <head>
-         <meta charset="utf-8">
-         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-         <meta name="robots" content="noindex,nofollow">
-         <title></title>
-         <link rel="stylesheet" href="/css/style.css">
-         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/css/bootstrap.min.css" integrity="sha384-Smlep5jCw/wG7hdkwQ/Z5nLIefveQRIY9nfy6xoR1uRYBtpZgI6339F5dgvm/e9B" crossorigin="anonymous">
-         <link rel='stylesheet' href='https://redirector.eservice.emarsys.net/ui/latest/css/app.css'>
-   </head>
-   <body>
-      <div id="main">
-         <div class="e-layout">
-            <div class="wrap" style="margin:20px 20px;">
-               <div class="e-box">
-                  <div class="e-row">
-                     <div class="e-col-12">
-                        <div class="e-field">
-                           <table class="e-table">
-                              <tr>
-                                 <th class="e-table th">Domain</th>
-                                 <th class="e-table th">DNS record </th>
-                                 <th class="e-table th">Status</th>
-                                 <th class="e-table th">Comment</th>
-                              </tr>
-                              <tr>
-                                 <td class="e-table td">1</td>
-                                 <td class="e-table td">2</td>
-                                 <td class="e-table td">Wrong returnpath configuration</td>
-                                 <td class="e-table td">no matching MX records found</td>
-                              </tr>
-                              <tr>
-                                 <td class="e-table td">3</td>
-                                 <td class="e-table td">4</td>
-                                 <td class="e-table td">Correct returnpath configuration *</td>
-                                 <td class="e-table td">required MX records are present but there are additional records with higher priority</td>
-                              </tr>
-                           </table>
-                           <input class="e-btn e-btn-primary" id="copy_btn" type="button" value="copy">
-                        </div>
-                     </div>
-                  </div>
-               </div>
-            </div>
-         </div>
-      </div>
-      <script>
-         var copyBtn = document.querySelector('#copy_btn');
-         copyBtn.addEventListener('click', function () {
-          var urlField = document.querySelector('table');
-           
-          // create a Range object
-          var range = document.createRange();  
-          // set the Node to select the "range"
-          range.selectNode(urlField);
-          // add the Range to the set of window selections
-          window.getSelection().addRange(range);
-           
-          // execute 'copy', can't 'cut' in this case
-          document.execCommand('copy');
-         }, false);
-      </script>
-      </script>
-   </body>
-</html>
+{% extends 'base.html' %} {% block content %} {% if user.is_authenticated %}
+<div class="e-box center">
+    <h3 class="center">Single DNS record</h3>
+    <br>
+    <div class="tab center">
+        <button class="tablinks" onclick="chooseTab(event, 'domainList')">Domain List</button>
+        <button class="tablinks" onclick="chooseTab(event, 'csvFile')">CSV File</button>
+    </div>
+    <div id="domainList" class="tabcontent">
+        <label for="domains">
+        Enter a domain or a list of domains
+        </label>
+        <div class="e-box center" style="max-width:40%">
+            <form method="post" action="compute">
+                {% csrf_token %} 
+                <input class="e-input" id="domains" name="domains" type="text" placeholder="emarsys.com">
+                <div class="center" id="records" name="records">
+                  <input class="e-checkbox" type="checkbox" id="MX" value="MX">
+                <label for="MX">
+                MX
+                </label>
+                <input class="e-checkbox" type="checkbox" id="NS"value="NS">
+                <label for="NS">
+NS                </label>
+                <input class="e-checkbox" type="checkbox" id="TXT" value="TXT">
+                <label for="TXT">
+                TXT
+                </label>
+                 <input class="e-checkbox" type="checkbox" id="CNAME" value="CNAME">
+                <label for="CNAME">
+                CNAME
+                </label>
+
+                </div>
+                <label for="delimitor">Delimitor</label>
+                <select class="e-select" id="delimitor" name="delimitor">
+                    <option value=",">,</option>
+                    <option value="|">|</option>
+                    <option value=";">;</option>
+                    <option value="   ">TAB</option>
+                    <option value=" ">Space</option>
+                </select>
+                <div class="e-field">
+                    <input class="e-btn btn-lila" type="submit" value="Check">
+                </div>
+            </form>
+        </div>
+    </div>
+    <div id="csvFile" class="tabcontent">
+        <label for="csvFileInput">
+        Upload a CSV file with a list of domains
+        </label>
+        <div class="e-box center" style="max-width:40%">
+            <form method="post" action="compute">
+                {% csrf_token %}
+                <input class="e-btn-fileinput input" type="file" id="csvFileInput" name="csvFile">
+                <div class="e-field">
+                    <label for="recordsFle">Record type</label>
+                    <select class="e-select" id="recordsFle" name="recordsFle">
+                        <option value="MX">MX</option>
+                        <option value="NS">NS</option>
+                        <option value="TXT">TXT</option>
+                        <option value="CNAME">CNAME</option>
+                        <option value="PTR">PTR</option>
+                    </select>
+                </div>
+                <div class="e-field">
+                    <input class="e-btn e-btn-primary" type="submit" value="Check" style="margin-top: 10px">
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<div class="e-box center">
+    <h3 class="center">Multiple DNS records</h3>
+    <br>
+    <div class="tab center">
+        <button class="tablinks" onclick="chooseTab(event, 'domainListMulti')">Domain List</button>
+        <button class="tablinks" onclick="chooseTab(event, 'csvFileMulti')">CSV File</button>
+    </div>
+    <div id="domainListMulti" class="tabcontent">
+        <label for="multiChexboxes">
+        Enter a domain or a list of domains
+        </label>
+        <div class="e-box center" style="max-width:40%">
+            <form method="post" action="compute">
+                {% csrf_token %} 
+                <input class="e-input" id="multiChexboxes" name="domains" type="text" placeholder="emarsys.com">
+                <input class="e-checkbox" type="checkbox" id="MX">
+                <label for="MX">
+                MX
+                </label>
+                <input class="e-checkbox" type="checkbox" id="SPF">
+                <label for="SPF">
+                SPF
+                </label>
+                <input class="e-checkbox" type="checkbox" id="DMARC">
+                <label for="DMARC">
+                DMARC
+                </label>
+                <input class="e-checkbox" type="checkbox" id="DKIM" onclick="unhide('DKIM')">
+                <label for="DKIM">
+                DKIM
+                </label>
+                <div class="e-row e-hidden" id="hidden">
+                    <div class="e-col-4 e-field">
+                        <label class="e-field__label" for="selector">
+                        Selector
+                        </label>
+                        <input class="e-input" id="selector" type="text" placeholder="selector">
+                    </div>
+                    <div class="e-col-8 e-field">
+                        <label class="e-field__label" for="key">
+                        Key value
+                        </label>
+                        <input class="e-input" id="key" type="text" placeholder="Public key">
+                    </div>
+                </div>
+                <div class="e-field">
+                    <input class="e-btn btn-lila" type="submit" value="Check">
+                </div>
+            </form>
+        </div>
+    </div>
+    <div id="csvFileMulti" class="tabcontent">
+        <label for="csvFileInputMulti">
+        Upload a CSV file with a list of domains
+        </label>
+        <div class="e-box center" style="max-width:40%">
+            <form method="post" action="compute">
+                {% csrf_token %}
+                <input class="e-btn-fileinput input" type="file" id="csvFileInputMulti" name="csvFile">
+                <div class="e-field">
+                    <label for="recordsFle">Record type</label>
+                    <select class="e-select" id="recordsFle" name="recordsFle">
+                        <option value="MX">MX</option>
+                        <option value="NS">NS</option>
+                        <option value="TXT">TXT</option>
+                        <option value="CNAME">CNAME</option>
+                        <option value="PTR">PTR</option>
+                    </select>
+                </div>
+                <div class="e-field">
+                    <input class="e-btn e-btn-primary" type="submit" value="Check" style="margin-top: 10px">
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<div class="center" style="margin-top: 50px;
+    ">
+    <form  action="{% url 'logout' %} " method="get">
+        <input class="e-btn btn-yellow center" type="submit" value="Logout">
+    </form>
+</div>
+{% else %} {% load static %}
+<div>
+    <img width="50%" class="center" src="{% static '/media/meme.jpg' %}" alt="One of you will betray me: SPAM filter, DMARC, SPF, DKIM, PTR">
+    <label class="center" for="login">
+    Please login
+    </label>
+    <form method="post" action="{% url 'login' %}">
+        {% csrf_token %}
+        <input class="e-btn e-btn-primary center" id="login" type="submit" value="login">
+        <input class="e-input" type="hidden" name="next" value="{{ next }}">
+    </form>
+</div>
+{% endif %}  {% endblock %}
+
+
+
+
+
