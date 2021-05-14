@@ -74,13 +74,14 @@ def compute(request):
 		if 'error' in priority_list:
 			status = domain_list[0]
 			comment = ' An error occured. Please read status '
-		
+		else:
+			pass
 
 
 
 		# Table case 1
 
-		elif 'emarsys.net.' not  in domain_list or 'mx.eemms.net.' not in domain_list : 
+		if 'emarsys.net.' not  in domain_list or 'mx.eemms.net.' not in domain_list : 
 			try:
 				for i in objects:
 					if 'emarsys.net' in i.domain or 'mx.eemms.net.' in i.domain:
@@ -92,29 +93,32 @@ def compute(request):
 				status = 'Wrong returnpath configuration'
 				comment = 'no matching MX records found'
 
-		
+		else:
+			pass
 
 		# Table case 2
 
-		elif (len(set(domain_list))==2):
+		if (len(set(domain_list))==2):
 			if 'return1.emarsys.net.' in domain_list and 'return0.emarsys.net.' in domain_list:
 				if (len(set(priority_list))==1):
 					status = 'Correct returnpath configuration'
 					comment = ''
 
-		
+		else: 
+			pass
 
 		# Table case 3 
 
-		elif (len(set(domain_list))==1):
+		if (len(set(domain_list))==1):
 			if 'mx.eemms.net.' in domain_list:
 				status = 'Wrong returnpath configuration'
 				comment = 'MX record  matching the Suite Reply Management'
-		
+		else:
+			pass
 
 		# Table case 4
 
-		elif 'return1.emarsys.net.' in domain_list and 'return0.emarsys.net.' in domain_list: 
+		if 'return1.emarsys.net.' in domain_list and 'return0.emarsys.net.' in domain_list: 
 			if (len(set(domain_list)) > 2):
 				if (len(set(priority_list))==1):
 					status = 'Wrong returnpath configuration'
@@ -137,11 +141,12 @@ def compute(request):
 						pass
 			else:
 				pass
-		
+		else:
+			pass
 
 		# Table case 5
 
-		elif 'return1.emarsys.net.' in domain_list and 'return0.emarsys.net.' in domain_list: 
+		if 'return1.emarsys.net.' in domain_list and 'return0.emarsys.net.' in domain_list: 
 			if (len(set(domain_list)) > 2):
 				emarsys_list = []
 				other_list = []
@@ -160,11 +165,12 @@ def compute(request):
 						pass
 			else:
 				pass
-		
+		else:
+			pass
 
 		# Table case 5a
 
-		elif 'return1.emarsys.net.' in domain_list and 'return0.emarsys.net.' in domain_list: 
+		if 'return1.emarsys.net.' in domain_list and 'return0.emarsys.net.' in domain_list: 
 			if (len(set(domain_list)) > 2):
 				emarsys_list = []
 				other_list = []
@@ -185,12 +191,13 @@ def compute(request):
 					pass			
 			else:
 				pass
-		
+		else:
+			pass
 
 
 		# Table case 5b
 
-		elif 'return1.emarsys.net.' in domain_list and 'return0.emarsys.net.' in domain_list: 
+		if 'return1.emarsys.net.' in domain_list and 'return0.emarsys.net.' in domain_list: 
 			if (len(set(domain_list)) > 2):
 				emarsys_list = []
 				other_list = []
@@ -211,28 +218,31 @@ def compute(request):
 					pass			
 			else:
 				pass
-		
+		else:
+			pass
 
 
 
 
 		# Table 6 case
 
-		elif 'return0.emarsys.net.' in domain_list and 'return1.emarsys.net.' not in domain_list: 
+		if 'return0.emarsys.net.' in domain_list and 'return1.emarsys.net.' not in domain_list: 
 			status = 'Incomplete returnpath configuration'
 			comment ='return1.emarsys.net record is missing'
-		
+		else:
+			pass
 
 		# Table 7 case
 
-		elif 'return1.emarsys.net.' in domain_list and 'return0.emarsys.net.' not in domain_list: 
+		if 'return1.emarsys.net.' in domain_list and 'return0.emarsys.net.' not in domain_list: 
 			status = 'Incomplete returnpath configuration'
 			comment ='return0.emarsys.net record is missing'
-		
+		else:
+			pass
 
 		# Table 8 case
 
-		elif 'mx.eemms.net.' in domain_list and (len(set(domain_list)) > 1):
+		if 'mx.eemms.net.' in domain_list and (len(set(domain_list)) > 1):
 			emarsys_list = []
 			other_list = []
 			for i in objects:
@@ -246,13 +256,14 @@ def compute(request):
 					comment = 'MX record matching the Suite Reply Management, but there are also other records with a lower priority. Replies will be managed by Emarsys'
 				else:
 					pass
-		
+		else:
+			pass
 
 		# Table 9 case - refered to table case 1
 
 		# Table 10 case 
 
-		elif 'return1.emarsys.net.' in domain_list and 'return0.emarsys.net.' in domain_list:
+		if 'return1.emarsys.net.' in domain_list and 'return0.emarsys.net.' in domain_list:
 			if (len(set(domain_list)) == 2):
 				if (len(set(priority_list))!=1):
 					status = 'Incomplete returnpath configuration'
@@ -261,9 +272,11 @@ def compute(request):
 					pass
 			else:
 				pass
-		
+		else:
+			pass
+
 		# Table 11 case 
-		elif 'mx.eemms.net.' in domain_list and (len(set(domain_list)) > 1):
+		if 'mx.eemms.net.' in domain_list and (len(set(domain_list)) > 1):
 			emarsys_list = []
 			other_list = []
 			for i in objects:
@@ -277,12 +290,13 @@ def compute(request):
 					comment = 'MX record matching the Suite Reply Management, but it has a lower priority. Replies will not be managed by Emarsys'
 				else:
 					pass
-		
+		else:
+			pass
 
 
 		# table 13 case:
 
-		elif (len(set(priority_list))==1):
+		if (len(set(priority_list))==1):
 			if 'return1.emarsys.net.' in domain_list and 'return0.emarsys.net.' in domain_list:
 				if (len(set(domain_list)) == 2):
 					pass
@@ -320,10 +334,12 @@ def compute(request):
 
 			else:
 				pass
-		
+		else:
+			pass
+
 		# table 14 case:
 
-		elif (len(set(priority_list))!=1):
+		if (len(set(priority_list))!=1):
 			if 'return1.emarsys.net.' in domain_list and 'return0.emarsys.net.' in domain_list:
 				if (len(set(domain_list)) == 2):
 					pass
@@ -361,12 +377,13 @@ def compute(request):
 
 			else:
 				pass
-		
+		else:
+			pass
 
 
 
 		# table 15 case:
-		elif (len(set(priority_list))!=1):
+		if (len(set(priority_list))!=1):
 			if 'return1.emarsys.net.' in domain_list and 'return0.emarsys.net.' in domain_list:
 				if (len(set(domain_list)) == 2):
 					pass
@@ -410,11 +427,12 @@ def compute(request):
 
 			else:
 				pass
-		
+		else:
+			pass
 
 		# table 15a case: 
 
-		elif (len(set(priority_list))!=1):
+		if (len(set(priority_list))!=1):
 			if 'return1.emarsys.net.' in domain_list and 'return0.emarsys.net.' in domain_list:
 				if (len(set(domain_list)) == 2):
 					pass
@@ -460,11 +478,12 @@ def compute(request):
 						pass
 			else:
 				pass
-		
+		else:
+			pass
 
 
 		# table 16 case: 
-		elif (len(set(priority_list))!=1):
+		if (len(set(priority_list))!=1):
 			if 'return1.emarsys.net.' in domain_list and 'return0.emarsys.net.' in domain_list:
 				if (len(set(domain_list)) == 2):
 					pass
@@ -508,10 +527,11 @@ def compute(request):
 
 			else:
 				pass
-		
+		else:
+			pass
 
 		# table 16 a case
-		elif (len(set(priority_list))!=1):
+		if (len(set(priority_list))!=1):
 			if 'return1.emarsys.net.' in domain_list and 'return0.emarsys.net.' in domain_list:
 				if (len(set(domain_list)) == 2):
 					pass
@@ -559,6 +579,11 @@ def compute(request):
 
 			else:
 				pass
+		
+
+		elif 'error' in priority_list:
+			status = domain_list[0]
+			comment = ' An error occured. Please read status '
 		else:
 			pass
 
