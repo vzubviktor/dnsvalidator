@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from .models import Domain, MXrecord
 import dns.resolver
-# import myfunctions
+# 	
 
 def index(request):
 	return render(request, 'index.html')
@@ -67,13 +67,20 @@ def compute(request):
 		priority_list = [ i.priority for i  in objects]
 		domain_list = [ i.domain for i in objects]
 
+		 
+
 		# Extra case to handle errors
+
+		if 'error' in priority_list:
+			status = domain_list[0]
+			comment = ' An error occured. Please read status '
+		
 
 
 
 		# Table case 1
 
-		if 'emarsys.net.' not  in domain_list or 'mx.eemms.net.' not in domain_list : 
+		elif 'emarsys.net.' not  in domain_list or 'mx.eemms.net.' not in domain_list : 
 			try:
 				for i in objects:
 					if 'emarsys.net' in i.domain or 'mx.eemms.net.' in i.domain:
@@ -85,31 +92,29 @@ def compute(request):
 				status = 'Wrong returnpath configuration'
 				comment = 'no matching MX records found'
 
-		else:
-			pass
+		
 
 		# Table case 2
 
-		if (len(set(domain_list))==2):
+		elif (len(set(domain_list))==2):
 			if 'return1.emarsys.net.' in domain_list and 'return0.emarsys.net.' in domain_list:
 				if (len(set(priority_list))==1):
 					status = 'Correct returnpath configuration'
+					comment = ''
 
-		else: 
-			pass
+		
 
 		# Table case 3 
 
-		if (len(set(domain_list))==1):
+		elif (len(set(domain_list))==1):
 			if 'mx.eemms.net.' in domain_list:
 				status = 'Wrong returnpath configuration'
 				comment = 'MX record  matching the Suite Reply Management'
-		else:
-			pass
+		
 
 		# Table case 4
 
-		if 'return1.emarsys.net.' in domain_list and 'return0.emarsys.net.' in domain_list: 
+		elif 'return1.emarsys.net.' in domain_list and 'return0.emarsys.net.' in domain_list: 
 			if (len(set(domain_list)) > 2):
 				if (len(set(priority_list))==1):
 					status = 'Wrong returnpath configuration'
@@ -132,12 +137,11 @@ def compute(request):
 						pass
 			else:
 				pass
-		else:
-			pass
+		
 
 		# Table case 5
 
-		if 'return1.emarsys.net.' in domain_list and 'return0.emarsys.net.' in domain_list: 
+		elif 'return1.emarsys.net.' in domain_list and 'return0.emarsys.net.' in domain_list: 
 			if (len(set(domain_list)) > 2):
 				emarsys_list = []
 				other_list = []
@@ -156,12 +160,11 @@ def compute(request):
 						pass
 			else:
 				pass
-		else:
-			pass
+		
 
 		# Table case 5a
 
-		if 'return1.emarsys.net.' in domain_list and 'return0.emarsys.net.' in domain_list: 
+		elif 'return1.emarsys.net.' in domain_list and 'return0.emarsys.net.' in domain_list: 
 			if (len(set(domain_list)) > 2):
 				emarsys_list = []
 				other_list = []
@@ -182,13 +185,12 @@ def compute(request):
 					pass			
 			else:
 				pass
-		else:
-			pass
+		
 
 
 		# Table case 5b
 
-		if 'return1.emarsys.net.' in domain_list and 'return0.emarsys.net.' in domain_list: 
+		elif 'return1.emarsys.net.' in domain_list and 'return0.emarsys.net.' in domain_list: 
 			if (len(set(domain_list)) > 2):
 				emarsys_list = []
 				other_list = []
@@ -209,31 +211,28 @@ def compute(request):
 					pass			
 			else:
 				pass
-		else:
-			pass
+		
 
 
 
 
 		# Table 6 case
 
-		if 'return0.emarsys.net.' in domain_list and 'return1.emarsys.net.' not in domain_list: 
+		elif 'return0.emarsys.net.' in domain_list and 'return1.emarsys.net.' not in domain_list: 
 			status = 'Incomplete returnpath configuration'
 			comment ='return1.emarsys.net record is missing'
-		else:
-			pass
+		
 
 		# Table 7 case
 
-		if 'return1.emarsys.net.' in domain_list and 'return0.emarsys.net.' not in domain_list: 
+		elif 'return1.emarsys.net.' in domain_list and 'return0.emarsys.net.' not in domain_list: 
 			status = 'Incomplete returnpath configuration'
 			comment ='return0.emarsys.net record is missing'
-		else:
-			pass
+		
 
 		# Table 8 case
 
-		if 'mx.eemms.net.' in domain_list and (len(set(domain_list)) > 1):
+		elif 'mx.eemms.net.' in domain_list and (len(set(domain_list)) > 1):
 			emarsys_list = []
 			other_list = []
 			for i in objects:
@@ -247,14 +246,13 @@ def compute(request):
 					comment = 'MX record matching the Suite Reply Management, but there are also other records with a lower priority. Replies will be managed by Emarsys'
 				else:
 					pass
-		else:
-			pass
+		
 
 		# Table 9 case - refered to table case 1
 
 		# Table 10 case 
 
-		if 'return1.emarsys.net.' in domain_list and 'return0.emarsys.net.' in domain_list:
+		elif 'return1.emarsys.net.' in domain_list and 'return0.emarsys.net.' in domain_list:
 			if (len(set(domain_list)) == 2):
 				if (len(set(priority_list))!=1):
 					status = 'Incomplete returnpath configuration'
@@ -263,11 +261,9 @@ def compute(request):
 					pass
 			else:
 				pass
-		else:
-			pass
-
+		
 		# Table 11 case 
-		if 'mx.eemms.net.' in domain_list and (len(set(domain_list)) > 1):
+		elif 'mx.eemms.net.' in domain_list and (len(set(domain_list)) > 1):
 			emarsys_list = []
 			other_list = []
 			for i in objects:
@@ -281,56 +277,295 @@ def compute(request):
 					comment = 'MX record matching the Suite Reply Management, but it has a lower priority. Replies will not be managed by Emarsys'
 				else:
 					pass
-		else:
-			pass
+		
 
-		# Table 13 case 
 
-		if 'return1.emarsys.net.' in domain_list and 'return0.emarsys.net.' in domain_list:
-			if len(domain_list) == 2:
-				pass
-			else:
-				if (len(set(priority_list)) == 1):
+		# table 13 case:
+
+		elif (len(set(priority_list))==1):
+			if 'return1.emarsys.net.' in domain_list and 'return0.emarsys.net.' in domain_list:
+				if (len(set(domain_list)) == 2):
+					pass
+					
+
+				else:
 					emarsys_list = []
-					for i in domain_list:
-						if 'emarsys.net' in i:
-							emarsys_list.append(i)
+					other_list = []
+					old_record_list = [ 
+						'e3uspmta1.emarsys.net',
+						'e3uspmta2.emarsys.net',
+						'e3uspmta3.emarsys.net',
+						'e3uspmta4.emarsys.net',
+						'e3uspmta5.emarsys.net',
+						'e3uspmta6.emarsys.net',
+						'e3uspmta7.emarsys.net',
+						'e3uspmta8.emarsys.net',
+						'e3uspmta9.emarsys.net',
+						'e3uspmta10.emarsys.net',
+						'suitepmta02.emarsys.net',
+						'suitepmta01.emarsys.net',
+						'return1.emarsys.net.',
+						'return0.emarsys.net.',
+						]
+					for i in objects:
+						if i.domain in  old_record_list:
+							emarsys_list.append(i.priority)
 						else:
-							pass
-					if len(emarsys_list) == len(domain_list):
+							other_list.append(i.priority)
+					if len(emarsys_list) == domain_list:
 						status = 'Old returnpath configuration'
 						comment = 'New MX setup should be advised'
 					else:
 						pass
-				else:
-					pass
-		else:
-			pass
 
-		# Table 14 case
-
-		if 'return1.emarsys.net.' in domain_list and 'return0.emarsys.net.' in domain_list:
-			if len(domain_list) == 2:
-				pass
 			else:
-				if (len(set(priority_list)) != 1):
+				pass
+		
+		# table 14 case:
+
+		elif (len(set(priority_list))!=1):
+			if 'return1.emarsys.net.' in domain_list and 'return0.emarsys.net.' in domain_list:
+				if (len(set(domain_list)) == 2):
+					pass
+					
+
+				else:
 					emarsys_list = []
-					for i in domain_list:
-						if 'emarsys.net' in i:
-							emarsys_list.append(i)
+					other_list = []
+					old_record_list = [ 
+						'e3uspmta1.emarsys.net',
+						'e3uspmta2.emarsys.net',
+						'e3uspmta3.emarsys.net',
+						'e3uspmta4.emarsys.net',
+						'e3uspmta5.emarsys.net',
+						'e3uspmta6.emarsys.net',
+						'e3uspmta7.emarsys.net',
+						'e3uspmta8.emarsys.net',
+						'e3uspmta9.emarsys.net',
+						'e3uspmta10.emarsys.net',
+						'suitepmta02.emarsys.net',
+						'suitepmta01.emarsys.net',
+						'return1.emarsys.net.',
+						'return0.emarsys.net.',
+						]
+					for i in objects:
+						if i.domain in  old_record_list:
+							emarsys_list.append(i.priority)
 						else:
-							pass
-					if len(emarsys_list) == len(domain_list):
+							other_list.append(i.priority)
+					if len(emarsys_list) == domain_list:
 						status = 'Incomplete old returnpath configuration '
 						comment = 'Priorities are invalid. New MX setup should be advised'
 					else:
 						pass
-				else:
+
+			else:
+				pass
+		
+
+
+
+		# table 15 case:
+		elif (len(set(priority_list))!=1):
+			if 'return1.emarsys.net.' in domain_list and 'return0.emarsys.net.' in domain_list:
+				if (len(set(domain_list)) == 2):
 					pass
+					
+
+				else:
+					emarsys_list = []
+					other_list = []
+					old_record_list = [ 
+						'e3uspmta1.emarsys.net',
+						'e3uspmta2.emarsys.net',
+						'e3uspmta3.emarsys.net',
+						'e3uspmta4.emarsys.net',
+						'e3uspmta5.emarsys.net',
+						'e3uspmta6.emarsys.net',
+						'e3uspmta7.emarsys.net',
+						'e3uspmta8.emarsys.net',
+						'e3uspmta9.emarsys.net',
+						'e3uspmta10.emarsys.net',
+						'suitepmta02.emarsys.net',
+						'suitepmta01.emarsys.net',
+						'return1.emarsys.net.',
+						'return0.emarsys.net.',
+						]
+					for i in objects:
+						if i.domain in  old_record_list:
+							emarsys_list.append(int(i.priority))
+						else:
+							other_list.append(int(i.priority))
+					if len(emarsys_list) != domain_list:
+						for i in other_list:
+							for j in emarsys_list:
+								if j > i:
+									status = 'Wrong returnpath configuration'
+									comment = 'Emarsys records should have have the highest priority (the lower number the higher priority) '
+								else:
+									pass
+
+					else:
+						pass
+
+			else:
+				pass
+		
+
+		# table 15a case: 
+
+		elif (len(set(priority_list))!=1):
+			if 'return1.emarsys.net.' in domain_list and 'return0.emarsys.net.' in domain_list:
+				if (len(set(domain_list)) == 2):
+					pass
+					
+				else:
+					emarsys_list = []
+					other_list = []
+					check_list = []
+					old_record_list = [ 
+						'e3uspmta1.emarsys.net',
+						'e3uspmta2.emarsys.net',
+						'e3uspmta3.emarsys.net',
+						'e3uspmta4.emarsys.net',
+						'e3uspmta5.emarsys.net',
+						'e3uspmta6.emarsys.net',
+						'e3uspmta7.emarsys.net',
+						'e3uspmta8.emarsys.net',
+						'e3uspmta9.emarsys.net',
+						'e3uspmta10.emarsys.net',
+						'suitepmta02.emarsys.net',
+						'suitepmta01.emarsys.net',
+						'return1.emarsys.net.',
+						'return0.emarsys.net.',
+						 
+						]
+					for i in objects:
+						if i.domain in  old_record_list:
+							emarsys_list.append(i)
+						elif i.domain == 'mx.eemms.net':
+							emarsys_list.append(i)
+							check_list.append(i)
+						else:
+							pass
+					if len(emarsys_list) == domain_list:
+						for i in check_list:
+							for j in emarsys_list:
+								if j.priority > i.priority and j.domain != i.domain:
+									status = 'Wrong returnpath configuration'
+									comment = 'MX record matching the Suite Reply Management. Replies will be managed by Emarsys'
+								else:
+									pass
+					else:
+						pass
+			else:
+				pass
+		
+
+
+		# table 16 case: 
+		elif (len(set(priority_list))!=1):
+			if 'return1.emarsys.net.' in domain_list and 'return0.emarsys.net.' in domain_list:
+				if (len(set(domain_list)) == 2):
+					pass
+					
+
+				else:
+					emarsys_list = []
+					other_list = []
+					old_record_list = [ 
+						'e3uspmta1.emarsys.net',
+						'e3uspmta2.emarsys.net',
+						'e3uspmta3.emarsys.net',
+						'e3uspmta4.emarsys.net',
+						'e3uspmta5.emarsys.net',
+						'e3uspmta6.emarsys.net',
+						'e3uspmta7.emarsys.net',
+						'e3uspmta8.emarsys.net',
+						'e3uspmta9.emarsys.net',
+						'e3uspmta10.emarsys.net',
+						'suitepmta02.emarsys.net',
+						'suitepmta01.emarsys.net',
+						'return1.emarsys.net.',
+						'return0.emarsys.net.',
+						]
+					for i in objects:
+						if i.domain in  old_record_list:
+							emarsys_list.append(int(i.priority))
+						else:
+							other_list.append(int(i.priority))
+					if len(emarsys_list) != domain_list:
+						for i in other_list:
+							for j in emarsys_list:
+								if j < i:
+									status = 'Old returnpath configuration'
+									comment = 'New MX setup should be advised. There are other records with a lower priority '
+								else:
+									pass
+
+					else:
+						pass
+
+			else:
+				pass
+		
+
+		# table 16 a case
+		elif (len(set(priority_list))!=1):
+			if 'return1.emarsys.net.' in domain_list and 'return0.emarsys.net.' in domain_list:
+				if (len(set(domain_list)) == 2):
+					pass
+					
+
+				else:
+					emarsys_list = []
+					other_list = []
+					old_record_list = [ 
+						'e3uspmta1.emarsys.net',
+						'e3uspmta2.emarsys.net',
+						'e3uspmta3.emarsys.net',
+						'e3uspmta4.emarsys.net',
+						'e3uspmta5.emarsys.net',
+						'e3uspmta6.emarsys.net',
+						'e3uspmta7.emarsys.net',
+						'e3uspmta8.emarsys.net',
+						'e3uspmta9.emarsys.net',
+						'e3uspmta10.emarsys.net',
+						'suitepmta02.emarsys.net',
+						'suitepmta01.emarsys.net',
+						'return1.emarsys.net.',
+						'return0.emarsys.net.',
+						]
+					for i in objects:
+						if i.domain in  old_record_list:
+							emarsys_list.append(int(i.priority))
+						else:
+							other_list.append(int(i.priority))
+					if len(emarsys_list) != domain_list:
+						if len(set(emarsys_list)) != 1:
+
+							for i in other_list:
+								for j in emarsys_list:
+									if j > i:
+										status = 'Incomplete old returnpath configuration '
+										comment = 'Old returnpath MX records are found but the priority is invalid. Emarsys records should have the highest priority'
+									else:
+										pass
+						else:
+							pass
+
+					else:
+						pass
+
+			else:
+				pass
 		else:
 			pass
 
-		# Table 15 case s
+
+
+
+
 
 
 						
