@@ -508,7 +508,7 @@ def compute(request):
 
 			elif 'All nameservers failed to answer' in str(domain_list[0]):
 				status = 'Wrong returnpath configuration'
-				comment = '  MX not found '
+				comment = 'DNS query failed'
 			else:
 				pass
 		else:
