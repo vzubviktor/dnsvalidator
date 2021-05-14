@@ -9,7 +9,7 @@
     {% for obj in obj_list %} 
     <tr>
         <td class="e-table td">{{ obj.record_name }}</td>
-        <td class="e-table td">{% for item in  obj.record_result %}{{item}}<br>{% endfor %}</td>
+        <td class="e-table td" style="white-space: pre">{% for item in  obj.record_result %}{{item}}<br>{% endfor %}</td>
         <td class="e-table td">{{obj.status}}</td>
         <td class="e-table td">{{obj.comment}}</td>
     </tr>
