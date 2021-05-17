@@ -35,12 +35,14 @@ def compute(request):
 	
 	obj_list = []
 
-	for obj in domain_list:
-		record_result = get_records(obj)
-		mx_objects = mx_create(record_result)
-		stat_and_comm = mx_rules(mx_objects)
-		obj = Domain( record_name = obj, record_type= record_val, record_result =  record_result, status = stat_and_comm[0], comment = stat_and_comm[1] )
-		obj_list.append(obj)
+	if record_val == 'MX':
+		
+		for obj in domain_list:
+			record_result = get_records(obj)
+			mx_objects = mx_create(record_result)
+			stat_and_comm = mx_rules(mx_objects)
+			obj = Domain( record_name = obj, record_type= record_val, record_result =  record_result, status = stat_and_comm[0], comment = stat_and_comm[1] )
+			obj_list.append(obj)
 
 	
 
