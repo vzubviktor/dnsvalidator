@@ -47,7 +47,7 @@ def compute(request):
 
 	### create objects for NS records and applies rules
 
-	if record_val == 'NS':
+	elif record_val == 'NS':
 
 		for obj in domain_list:
 			record_result = get_records(obj)
