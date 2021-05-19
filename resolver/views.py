@@ -42,9 +42,12 @@ def compute(request):
 
 	def get_ptr(address):
 		final_answers=[]
-		domain_address = dns.reversename.from_address(address)
-		ptr_record = dns.resolver.resolve(domain_address, 'PTR')[0]
-		final_answers.append(ptr_record)
+		try:
+			domain_address = dns.reversename.from_address(address)
+			ptr_record = dns.resolver.resolve(domain_address, 'PTR')[0]
+			final_answers.append(ptr_record)
+		except Exception as e:
+			final_answers.append(e)
 		return final_answers
 
 
