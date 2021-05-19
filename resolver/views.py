@@ -1,7 +1,8 @@
 from django.shortcuts import render
-from .models import Domain, MXrecord
+from .models import Domain, MXrecord, NSrecord
 import dns.resolver
 from resolver.mxrules import *
+from resolver.nsrules import *
 # 	
 
 def index(request):
@@ -43,6 +44,18 @@ def compute(request):
 			stat_and_comm = mx_rules(mx_objects)
 			obj = Domain( record_name = obj, record_type= record_val, record_result =  record_result, status = stat_and_comm[0], comment = stat_and_comm[1] )
 			obj_list.append(obj)
+
+	### create objects for NS records and applies rules
+
+	elif record_val == 'NS':
+
+		for obj in domain_list:
+			record_result = get_records(obj)
+			ns_objects = ns_create(record_result)
+			stat_and_comm = ns_rules(ns_objects)
+			obj = Domain( record_name = obj, record_type= record_val, record_result =  record_result, status = stat_and_comm[0], comment = stat_and_comm[1] )
+			obj_list.append(obj)
+
 
 	### create objects for domains and records with no rules
 	else:

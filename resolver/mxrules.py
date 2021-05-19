@@ -61,11 +61,11 @@ def mx_rules(objects):
 
 	# Extra case to handle errors
 
-	if 'error' in priority_list:
-		status = domain_list[0]
-		comment = ' An error occured. Please read status '
-	else:
-		pass
+	# if 'error' in priority_list:
+	# 	status = domain_list[0]
+	# 	comment = ' An error occured. Please read status '
+	# else:
+	# 	pass
 
 
 
@@ -487,19 +487,6 @@ def mx_rules(objects):
 			pass
 	else:
 		pass
-
-
-
-
-
-
-
-					
-
-
-
-
-
 
 
 
