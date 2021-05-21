@@ -69,7 +69,6 @@ def compute(request):
 
 
 
-
 	### create objects for MX records and applies rules
 	elif record_val == 'MX':
 
@@ -102,21 +101,6 @@ def compute(request):
 			obj_list.append(obj)
 
 
-
-	
-
-
-
-
-
-
-
-
-
-
-
-
-
 		
 
 	return render(request, 'result.html', { 
@@ -133,3 +117,20 @@ def compute(request):
 
 	 })
 # Create your views here.
+
+def compute_csv(request):
+	if request.method=='POST':
+		csv_file = request.FILES['csvFile']
+		record_val = request.POST['recordsFle']
+
+	def process_csv(csv_file):
+		domain_list = []
+		with open(csv_file,'r') as fp:
+			reader1 = csv.reader(fp, delimiter=';')
+			for value in reader1:
+				domain_list.append(value)
+		return domain_list
+	x = process_csv(csv_file)
+	return render (request, 'csv_result.html', { x : 'x'})
+
+

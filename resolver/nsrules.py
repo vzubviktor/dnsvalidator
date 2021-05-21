@@ -55,10 +55,10 @@ def ns_rules(objects):
 
 	elif len(domain_list) == 4:
 		check_list = [
-		'ns1.emarsys.net',
-		'ns2.emarsys.net',
-		'ns3.emarsys.net',
-		'ns4.emarsys.net',
+		'ns1.emarsys.net.',
+		'ns2.emarsys.net.',
+		'ns3.emarsys.net.',
+		'ns4.emarsys.net.',
 		]
 		domain_list.sort()
 		check_list.sort()

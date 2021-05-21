@@ -41,9 +41,9 @@
         Upload a CSV file with a list of domains
         </label>
         <div class="e-box center" style="max-width:40%">
-            <form method="post" action="compute">
+            <form method="post" enctype="multipart/form-data" action="compute_csv">
                 {% csrf_token %}
-                <input class="e-btn-fileinput input" type="file" id="csvFileInput" name="csvFile">
+                <input class="e-btn-fileinput input" type="file" id="csvFileInput"  name="csvFileInput">
                 <div class="e-field">
                     <label for="recordsFle">Record type</label>
                     <select class="e-select" id="recordsFle" name="recordsFle">
