@@ -30,16 +30,15 @@
         <link rel="stylesheet" href="{% static '/css/style.css' %}">
         <link rel="shortcut icon" href="{% static '/media/chewie.png' %}">
         <script src="{% static '/js/noobie.js' %}"></script>
-        <!--<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>-->
     </head>
     <body>
         <div id="main">
-            <div class="e-layout">
-                <div class="wrap" style="margin:20px 20px;">
-                    <div class="e-box">
-                        <div class="e-row">
-                            <div class="e-col-12">
-                                <div class="e-field"> {% block content %} {% endblock content %}
+            <div class="layout">
+                <div class="wrap">
+                    <div class="box">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="field"> {% block content %} {% endblock content %}
                                 </div>
                             </div>
                         </div>
