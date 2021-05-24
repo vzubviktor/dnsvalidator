@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from django.http import HttpResponse
 from django.contrib.admin.utils import flatten
 from .models import Domain, MXrecord, NSrecord
 import dns.resolver
@@ -217,29 +218,33 @@ def compute_csv(request):
 			obj_list.append(obj)
 
 
-		
+	response = HttpResponse(content_type = 'text/csv')
+	writer  = csv.writer(response)
+	writer.writerow(['domain' , 'DNS record', 'status' , 'comment'])
+	for obj in obj_list:
+		writer.writerow( [obj.record_name, obj.record_result, obj.status, obj.comment] )
+	response['Content-Disposition'] = 'attachment; filename="result.csv"'
 
-	return render(request, 'result.html', { 
 
-	'record_val' : record_val, 
-		# 'output' : output, 
-	'domain_list' : domain_list, 
-	
-	# 'record_result' : record_result,
-	# 'end_result' : end_result, 
-	'obj_list' : obj_list, 
-	
 	
 
-	 })
+	return response
 
 
 
 
 
 
-
+                            
 def testcsv(request):
-	return render( request, 'testcsv.html' )	
+	return render( request, 'testcsv.html' )
+
+def export_csv(request):
+	response = HttpResponse(content_type = 'text/csv')
+	writer  = csv.writer(response)
+	writer.writerow(['domain' , 'DNS record', 'status' , 'comment'])
+
+
+
 
 
