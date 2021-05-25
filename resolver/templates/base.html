@@ -74,10 +74,34 @@
             download_csv(csv.join("\n"), filename);
             }
             
-            document.getElementById("downloadTable").addEventListener("click", function () {
-            var html = document.querySelector("table").outerHTML;
-            export_table_to_csv(html, "dnscheck.csv");
-            });
+            var el = document.getElementById("downloadTable");
+            if(el) {
+             document.getElementById("downloadTable").addEventListener("click", function () {
+             var html = document.querySelector("table").outerHTML;
+             export_table_to_csv(html, "dnscheck.csv");
+             });
+            }
+            // check filetype
+            var el = document.getElementById("csvFileInput");
+            if(el) { document.getElementById("csvFileInput").addEventListener("change", validateFile)
+            
+            function validateFile(){
+            const allowedExtensions =  ['txt','csv'],
+            sizeLimit = 100000000; // 100 megabyte
+            
+            const { name:fileName, size:fileSize } = this.files[0];
+            
+            const fileExtension = fileName.split(".").pop();
+            
+            if(!allowedExtensions.includes(fileExtension)){
+            alert("File type is not allowed");
+            this.value = null;
+            }else if(fileSize > sizeLimit){
+            alert("File size limit is 95MB")
+            this.value = null;
+            }
+            }
+            }
         </script>
     </body>
 </html>
