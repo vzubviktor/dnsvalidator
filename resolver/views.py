@@ -19,10 +19,7 @@ def compute(request):
 ### Gets Raw data from input and cleans for processsing	
 
 	### check box list
-	# if request.method == 'POST':
- #    records  = request.POST.getlist('records ')
- 	# for val in record val:
-
+	
 
 	domain_val = request.POST['domains']
 	record_val = request.POST['records']
@@ -218,11 +215,12 @@ def compute_csv(request):
 			obj_list.append(obj)
 
 
-	str_record_result = ''.join(obj.record_result)
+	
 	response = HttpResponse(content_type = 'text/csv')
 	writer  = csv.writer(response)
 	writer.writerow(['domain' , 'DNS record', 'status' , 'comment'])
 	for obj in obj_list:
+		str_record_result = ''.join(obj.record_result)
 		writer.writerow( [obj.record_name, str_record_result, obj.status, obj.comment] )
 	response['Content-Disposition'] = 'attachment; filename="result.csv"'
 
@@ -231,13 +229,9 @@ def compute_csv(request):
 
 	return response
 
-
-
-
-
-
-                            
-
-
-
-
+def test(request):
+	domains = request.POST['domains']
+	if request.method == 'POST':
+		records  = request.POST.getlist('records')
+		
+	return render(request, 'testresult.html', { 'records' : records, 'domains' : domains})
