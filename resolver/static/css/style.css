@@ -65,7 +65,7 @@ button,
 input,
 select,
 textarea {
-    border-radius: 0;
+    border-radius: 8px;
     color: inherit;
     font: inherit;
     outline: none;
@@ -300,7 +300,7 @@ table {
     color: #102a43;
     display: inline-block;
     height: 40px;
-    padding: 0 12px;
+    padding: 4px 12px;
     position: relative;
     text-overflow: ellipsis;
     transition: border 0.2s ease-in-out, box-shadow 0.2s ease-in-out;

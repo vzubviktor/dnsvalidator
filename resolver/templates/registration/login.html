@@ -1,27 +1,16 @@
 {% extends "base.html" %}
 {% block content %}
-<div>
-   <form method="post" action="{% url 'login' %}" >
-      {% csrf_token %}
-         {{ form.username.label_tag }}
-         {{ form.username }}
-         
-         {{ form.password.label_tag }}
-         {{ form.password }} 
-       <!-- <div class="e-field">
-         <label for="username">
-         Username:
-         </label>
-         <input class="e-input" id="username" type="text" placeholder="username">
-      </div>
-      <div class="e-field">
-         <label for="password">
-         Password:
-         </label>
-         <input class="e-input" id="password" type="text" placeholder="password">
-      </div>-->
-      <input class="e-btn e-btn-primary" type="submit" value="login" style="align-text: center">
-      <input class="e-input" type="hidden" name="next" value="{{ next }}">
-   </form>
+<div class="center">
+    <form method="post" action="{% url 'login' %}" >
+        {% csrf_token %}
+        {{ form.username.label_tag }}
+        {{ form.username }}
+        {{ form.password.label_tag }}
+        {{ form.password }} 
+        <div class="center">
+            <input class="e-btn e-btn-primary" type="submit" value="login" style="align-text: center">
+        </div>
+        <input class="e-input" type="hidden" name="next" value="{{ next }}">
+    </form>
 </div>
 {% endblock %}
