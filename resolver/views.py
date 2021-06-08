@@ -152,7 +152,7 @@ def compute_csv(request):
 			for value in answers:
 				final_answers.append(value.to_text())			
 		except Exception as e:
-			final_answers.append(e)
+			final_answers.append(str(e))
 		return final_answers
 
 	### IF PTR record - processe ip to get pter record
@@ -164,7 +164,7 @@ def compute_csv(request):
 			ptr_record = dns.resolver.resolve(domain_address, 'PTR')[0]
 			final_answers.append(ptr_record)
 		except Exception as e:
-			final_answers.append(e)
+			final_answers.append(str(e))
 		return final_answers
 
 
@@ -218,11 +218,12 @@ def compute_csv(request):
 			obj_list.append(obj)
 
 
+	str_record_result = ''.join(obj.record_result)
 	response = HttpResponse(content_type = 'text/csv')
 	writer  = csv.writer(response)
 	writer.writerow(['domain' , 'DNS record', 'status' , 'comment'])
 	for obj in obj_list:
-		writer.writerow( [obj.record_name, obj.record_result, obj.status, obj.comment] )
+		writer.writerow( [obj.record_name, str_record_result, obj.status, obj.comment] )
 	response['Content-Disposition'] = 'attachment; filename="result.csv"'
 
 
@@ -236,14 +237,6 @@ def compute_csv(request):
 
 
                             
-def testcsv(request):
-	return render( request, 'testcsv.html' )
-
-def export_csv(request):
-	response = HttpResponse(content_type = 'text/csv')
-	writer  = csv.writer(response)
-	writer.writerow(['domain' , 'DNS record', 'status' , 'comment'])
-
 
 
 
