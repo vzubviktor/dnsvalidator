@@ -217,10 +217,10 @@ def compute_csv(request):
 
 	
 	response = HttpResponse(content_type = 'text/csv')
-	writer  = csv.writer(response)
+	writer  = csv.writer(response, lineterminator='\n')
 	writer.writerow(['domain' , 'DNS record', 'status' , 'comment'])
 	for obj in obj_list:
-		str_record_result = ''.join(obj.record_result)
+		str_record_result = '\n'.join(obj.record_result)
 		writer.writerow( [obj.record_name, str_record_result, obj.status, obj.comment] )
 	response['Content-Disposition'] = 'attachment; filename="result.csv"'
 
