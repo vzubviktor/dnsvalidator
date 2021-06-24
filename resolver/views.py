@@ -229,7 +229,7 @@ def compute_csv(request):
 
 	return response
 
-def test(request):
+def compute_multi(request):
 	domains = request.POST['domains']
 	delimitor = request.POST['delimitor']
 	domain_list= domains.split(delimitor)
@@ -323,4 +323,4 @@ def test(request):
 
 
 		
-	return render(request, 'testresult.html', { 'obj_list' : obj_list })
+	return render(request, 'multiple.html', { 'obj_list' : obj_list })

@@ -70,7 +70,7 @@
                                             Enter a domain or a list of domains
                                             </label>
                                             <div class="e-box center" style="max-width:40%">
-                                                <form method="post" action="test">
+                                                <form method="post" action="compute_multi">
                                                     {% csrf_token %} 
                                                     <input class="e-input" id="multiChexboxes"  name="domains" type="text" placeholder="emarsys.com">
                                                     <input class="e-checkbox" type="checkbox" value="MX" id="MX" name="records">
