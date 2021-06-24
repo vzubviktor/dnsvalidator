@@ -77,7 +77,7 @@
                                                     <label for="MX">
                                                     MX
                                                     </label>
-                                                    <input class="e-checkbox" type="checkbox" id="SPF">
+                                                    <input class="e-checkbox" type="checkbox" value="SPF" id="SPF" name="records">
                                                     <label for="SPF">
                                                     SPF
                                                      </label>
@@ -103,6 +103,12 @@
                                                             <input class="e-input" id="key" type="text" placeholder="Public key">
                                                         </div>-->
                                                     </div>
+                                                     <label for="delimitor">Delimitor</label>
+                                                    <select class="e-select" id="delimitor" name="delimitor">
+                                                        <option value=",">,</option>
+                                                        <option value="|">|</option>
+                                                        <option value=";">;</option>
+                                                    </select>
                                                     <div class="e-field">
                                                         <input class="e-btn btn-lila" type="submit" value="Check">
                                                     </div>
