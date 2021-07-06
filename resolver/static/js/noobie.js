@@ -38,5 +38,6 @@ function toggleField(hideObj,showObj){
  showObj.disabled=false;    
  showObj.style.display='inline';
  showObj.focus();
-showObj.classList.add('e-input');
+ showObj.classList.add("e-input");
 }
+
