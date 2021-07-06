@@ -31,3 +31,12 @@ function unhide(el) {
          element.classList.add("e-hidden");
          }
          }
+
+function toggleField(hideObj,showObj){
+ hideObj.disabled=true;     
+ hideObj.style.display='none';
+ showObj.disabled=false;    
+ showObj.style.display='inline';
+ showObj.focus();
+showObj.classList.add('e-input');
+}

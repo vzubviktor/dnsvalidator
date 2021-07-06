@@ -39,7 +39,8 @@
                                             Upload a CSV or TXT file with a list of domains
                                             </label>
                                             <div class="box center" style="max-width:40%">
-                                                <form method="post" action="compute_csv"  enctype="multipart/form-data"> {% csrf_token %}
+                                                <form method="post" action="compute_csv"  enctype="multipart/form-data">
+                                                    {% csrf_token %}
                                                     <input class="e-btn-fileinput input" type="file" id="csvFileInput" name="csv_file" required  multiple accept=".csv, .txt">
                                                     <div class="e-field">
                                                         <label for="recordsFle">Record type</label>
@@ -80,7 +81,7 @@
                                                     <input class="e-checkbox" type="checkbox" value="SPF" id="SPF" name="records">
                                                     <label for="SPF">
                                                     SPF
-                                                     </label>
+                                                    </label>
                                                     <input class="e-checkbox" type="checkbox" id="DMARC">
                                                     <label for="DMARC">
                                                     DMARC
@@ -94,16 +95,33 @@
                                                             <label class="e-field__label" for="selector">
                                                             Selector
                                                             </label>
-                                                            <input class="e-input" id="selector" type="text" placeholder="selector">
+                                                            <select class="e-select"  name="dkimSelector" onchange="if(this.options[this.selectedIndex].value=='customOption'){toggleField(this,this.nextSibling); this.selectedIndex='0';}">
+                                                                <option></option>
+                                                                <option value="customOption">custom</option>
+                                                                <option>key2</option>
+                                                                <option>key4</option>
+                                                                <option>key5</option>
+                                                                <option>key6</option>
+                                                            </select>
+                                                            <input name="dkimSelector" style="display:none;" disabled="disabled" onblur="if(this.value==''){toggleField(this,this.previousSibling);}">
                                                         </div>
                                                         <div class="e-col-8 e-field">
                                                             <label class="e-field__label" for="key">
                                                             Key value
                                                             </label>
-                                                            <input class="e-input" id="key" type="text" placeholder="Public key">
+                                                            <select class="e-select"  name="dkimKey" onchange="if(this.options[this.selectedIndex].value=='customOption'){toggleField(this,this.nextSibling); this.selectedIndex='0';}">
+                                                                <option></option>
+                                                                <option value="customOption">custom</option>
+                                                                <option value="v=DKIM1;k=rsa;p=MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCqFwlkVVM4irVCuSD/bs1ewUWLU/0c8qOdhw4/YXXZugQapNKUpcpmaFwZ3Dw380eIm8fFUfv96ObYEPeDBb32KcOjQfHV6cquwMfnIy7iZtC+3lloRJKKc/fHDgaP81l8fOEwpm7F4jXqa3Qh775JlsrptFfBoMAyQ0XDgUQI1QIDAQAB">value for key2</option>
+                                                                <option value="v=DKIM1;k=rsa;p=MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQC89LipD0a30WgIjdxc8BLDMsSMUf8HoXJttcZQKn3R5kdsxd2L4DXP/UVJ0/0jQJwljc2eTXJRshlTU7s8Wdu50MsMfBAu7Ky8WNjR867hw7ACpRmessTDgyASj9gOEBCXmEw0rtn3havJkzF/1kAVKhx0get3XdGMHnFA9ya0KwIDAQAB">value for key4</option>
+                                                                <option value="v=DKIM1;k=rsa;p=MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCtuwC9wykvNVY0H+4ZBSRtI3ZkNf+BYhxlU066j3FUhOiju0BxS4Px+6T4E2hzIMX9OpTfil8RCYgNSz/XRHGJ/6VYPyiGAGyqvdbiO9wHsbQJ/GREu5rhamsPvoxf0AidaqlpQ8fM6ITe+VbtRMeVGLKlei1St7elNSWt1wijKQIDAQAB">value for key5</option>
+                                                                <option value="v=DKIM1;k=rsa;p=MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCpk27eqCMMWoFX72YasAzxzLpld+DECX7ny2bsUknsehh9OkLe2sI0cy38z+CSAQk8X0gGRaiBV6wTZbhpuPgC+DU9oTwyzWY0lKiO3AHctHIDIxVu5iBV0SoNomV42qb5nRzMY+HL/Ri+Ul8RQj3YFsBluRhvuG1AtfL2oXD9YwIDAQAB">value for key6</option>
+                                                            </select>
+                                                            <input name="dkimKey" style="display:none;" disabled="disabled" onblur="if(this.value==''){toggleField(this,this.previousSibling);}">
                                                         </div>
                                                     </div>
-                                                     <label for="delimitor">Delimitor</label>
+                                                    <br>
+                                                    <label for="delimitor">Delimitor</label>
                                                     <select class="e-select" id="delimitor" name="delimitor">
                                                         <option value=",">,</option>
                                                         <option value="|">|</option>
@@ -139,12 +157,13 @@
                                                 </form>
                                             </div>
                                         </div>
-                                        </div>
+                                    </div>
                                     <div class="center" style="margin-top: 50px;">
                                         <form  action="{% url 'logout' %} " method="get">
                                             <input class="e-btn btn-yellow center" type="submit" value="Logout">
                                         </form>
-                                    </div>{% else %} {% load static %}
+                                    </div>
+                                    {% else %} {% load static %}
                                     <div>
                                         <img width="50%" class="center" src="{% static '/media/meme.jpg' %}" alt="One of you will betray me: SPAM filter, DMARC, SPF, DKIM, PTR">
                                         <form method="post" action="{% url 'login' %}">          {% csrf_token %}
