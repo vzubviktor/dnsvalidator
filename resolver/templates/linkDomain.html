@@ -6,13 +6,15 @@
         <th class="e-table th">Status</th>
         <th class="e-table th">Comment</th>
     </tr>
+    {% for obj in obj_list %} 
     <tr>
         <td class="e-table td">{{ obj.record_name }}</td>
         <td class="e-table td">{{obj.record_result}}</td>
         <td class="e-table td">{{obj.status}}</td>
         <td class="e-table td">{{obj.comment}}</td>
     </tr>
-    </table>
+    {% endfor %}
+</table>
 <div class="center">
     <input class="e-btn btn-lila" type="button" value="Copy to clip" onClick="copytable('copyTable')">
     <input class="e-btn btn-yellow" id="downloadTable" type="button" value="Export table">
