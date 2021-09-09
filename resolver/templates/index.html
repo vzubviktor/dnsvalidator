@@ -1,4 +1,24 @@
                                     {% extends 'base.html' %} {% block content %} {% if user.is_authenticated %}
+                                                                        <div class="center">
+                                        <h3 class="center">Emarsys SAP DNS setup verification</h3>
+                                        <br>
+                                            <label for="verification">
+                                            Enter sender and link subdomains
+                                            </label>
+                                            <div class="box center" style="max-width:40%" id="verification">
+                                                <form method="post" action="xxx">
+                                                    {% csrf_token %} 
+                                                    <input class="e-input" id="senderDomain" name="senderDomain" type="text" placeholder="sender subdomain">
+                                                    <input class="e-input" id="linkDomain" name="linkDomain" type="text" placeholder="link subdomain">
+                                                    <div class="e-field">
+                                                        <input class="e-btn btn-lila" type="submit" value="Check">
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
                                     <div class="center">
                                         <h3 class="center">DNS record check</h3>
                                         <br>
@@ -59,12 +79,13 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="e-box center">
+                                    <br><br><br>
+                                    <div class="center">
                                         <h3 class="center">Multiple DNS records</h3>
                                         <br>
                                         <div class="tab center">
                                             <button class="tablinks" onclick="chooseTab(event, 'domainListMulti')">Domain List</button>
-                                            <button class="tablinks" onclick="chooseTab(event, 'csvFileMulti')">CSV File</button>
+                                            <button class="tablinks" onclick="chooseTab(event, 'csvFileMulti')">File Upload</button>
                                         </div>
                                         <div id="domainListMulti" class="tabcontent">
                                             <label for="multiChexboxes">
@@ -78,6 +99,10 @@
                                                     <label for="MX">
                                                     MX
                                                     </label>
+                                                    <input class="e-checkbox" type="checkbox" value="NS" id="NS" name="records">
+                                                    <label for="NS">
+                                                    NS
+                                                    </label>
                                                     <input class="e-checkbox" type="checkbox" value="SPF" id="SPF" name="records">
                                                     <label for="SPF">
                                                     SPF
@@ -90,40 +115,20 @@
                                                     <label for="DKIM">
                                                     DKIM
                                                     </label>
-                                                    <div class="e-row e-hidden" id="hidden">
-                                                        <div class="e-col-4 e-field">
+                                                    <div class="e-hidden" id="hidden">
+                                                        <div class="e-field">
                                                             <label class="e-field__label" for="selector">
                                                             Selector
                                                             </label>
-                                                            <select class="e-select"  name="dkimSelector" onchange="if(this.options[this.selectedIndex].id=='customOption'){
-              toggleField(this,this.nextSibling);
-              this.selectedIndex='0';
-          }">
-            <option></option>
-            <option id="customOption">custom</option>
-            <option>key2</option>
-            <option>key4</option>
-            <option>key5</option>
-            <option>key6</option>
-        </select><input name="dkimSelector" style="display:none;" disabled="disabled" 
-            onblur="if(this.value==''){toggleField(this,this.previousSibling);}">
-                                                        </div>
-                                                        <div class="e-col-8 e-field">
-                                                            <label class="e-field__label" for="key">
-                                                            Key value
-                                                            </label>
-                                                            <select class="e-select"  name="dkimKey" onchange="if(this.options[this.selectedIndex].id=='customOptionKey'){
-              toggleField(this,this.nextSibling);
-              this.selectedIndex='0';
-          }">
-            <option></option>
-            <option id="customOptionKey">custom</option>
-            <option value="v=DKIM1;k=rsa;p=MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCqFwlkVVM4irVCuSD/bs1ewUWLU/0c8qOdhw4/YXXZugQapNKUpcpmaFwZ3Dw380eIm8fFUfv96ObYEPeDBb32KcOjQfHV6cquwMfnIy7iZtC+3lloRJKKc/fHDgaP81l8fOEwpm7F4jXqa3Qh775JlsrptFfBoMAyQ0XDgUQI1QIDAQAB">value for key2</option>
-            <option value="v=DKIM1;k=rsa;p=MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQC89LipD0a30WgIjdxc8BLDMsSMUf8HoXJttcZQKn3R5kdsxd2L4DXP/UVJ0/0jQJwljc2eTXJRshlTU7s8Wdu50MsMfBAu7Ky8WNjR867hw7ACpRmessTDgyASj9gOEBCXmEw0rtn3havJkzF/1kAVKhx0get3XdGMHnFA9ya0KwIDAQAB">value for key4</option>
-            <option value="v=DKIM1;k=rsa;p=MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCtuwC9wykvNVY0H+4ZBSRtI3ZkNf+BYhxlU066j3FUhOiju0BxS4Px+6T4E2hzIMX9OpTfil8RCYgNSz/XRHGJ/6VYPyiGAGyqvdbiO9wHsbQJ/GREu5rhamsPvoxf0AidaqlpQ8fM6ITe+VbtRMeVGLKlei1St7elNSWt1wijKQIDAQAB">value for key5</option>
-            <option value="v=DKIM1;k=rsa;p=MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCpk27eqCMMWoFX72YasAzxzLpld+DECX7ny2bsUknsehh9OkLe2sI0cy38z+CSAQk8X0gGRaiBV6wTZbhpuPgC+DU9oTwyzWY0lKiO3AHctHIDIxVu5iBV0SoNomV42qb5nRzMY+HL/Ri+Ul8RQj3YFsBluRhvuG1AtfL2oXD9YwIDAQAB">value for key6</option>
-        </select><input name="dkimKey" style="display:none;" disabled="disabled" 
-            onblur="if(this.value==''){toggleField(this,this.previousSibling);}">
+                                                            <select class="e-select"  name="dkimSelect">
+                                                                <option value="key2">key2</option>
+                                                                <option value="key4">key4</option>
+                                                                <option value="key5">key5</option>
+                                                                <option value="key6">key6</option>
+                                                                <option value="other" onclick="unhideCheck(this)">custom</option>
+                                                            </select>
+                                                            <input class="e-input" style="display: none;" name="dkimSelector" id="customOption" placeholder="selector">
+                                                        <input class="e-input" id="customOptionKey" name="dkimKey" style="display:none;" placeholder="value">
                                                         </div>
                                                     </div>
                                                     <br>
@@ -141,22 +146,50 @@
                                         </div>
                                         <div id="csvFileMulti" class="tabcontent">
                                             <label for="csvFileInputMulti">
-                                            Upload a CSV file with a list of domains
+                                             Upload a CSV or TXT file with a list of domains
                                             </label>
                                             <div class="e-box center" style="max-width:40%">
-                                                <form method="post" action="compute">
+                                                <form method="post" action="compute_csv">
                                                     {% csrf_token %}
                                                     <input class="e-btn-fileinput input" type="file" id="csvFileInputMulti" name="csvFile">
                                                     <div class="e-field">
-                                                        <label for="recordsFle">Record type</label>
-                                                        <select class="e-select" id="recordsFle" name="recordsFle">
-                                                            <option value="MX">MX</option>
-                                                            <option value="NS">NS</option>
-                                                            <option value="TXT">TXT</option>
-                                                            <option value="CNAME">CNAME</option>
-                                                            <option value="PTR">PTR</option>
-                                                        </select>
+                                                    <input class="e-checkbox" type="checkbox" value="MX" id="MX1" name="records">
+                                                    <label for="MX1">
+                                                    MX
+                                                    </label>
+                                                    <input class="e-checkbox" type="checkbox" value="NS" id="NS1" name="records">
+                                                    <label for="NS1">
+                                                    NS
+                                                    </label>
+                                                    <input class="e-checkbox" type="checkbox" value="SPF" id="SPF1" name="records">
+                                                    <label for="SPF1">
+                                                    SPF
+                                                    </label>
+                                                    <input class="e-checkbox" type="checkbox" id="DMARC1">
+                                                    <label for="DMARC1">
+                                                    DMARC
+                                                    </label>
+                                                    <input class="e-checkbox" type="checkbox" id="DKIM1" onclick="unhide1('DKIM1')">
+                                                    <label for="DKIM1">
+                                                    DKIM
+                                                    </label>
+                                                    <div class="e-hidden" id="hidden1">
+                                                        <div class="e-field">
+                                                            <label class="e-field__label" for="selector">
+                                                            Selector
+                                                            </label>
+                                                            <select class="e-select"  name="dkimSelect">
+                                                                <option value="key2">key2</option>
+                                                                <option value="key4">key4</option>
+                                                                <option value="key5">key5</option>
+                                                                <option value="key6">key6</option>
+                                                                <option value="other" onclick="unhideCheck1(this)">custom</option>
+                                                            </select>
+                                                            <input class="e-input" style="display: none;" name="dkimSelector" id="customOption1" placeholder="selector">
+                                                        <input class="e-input" id="customOptionKey1" name="dkimKey" style="display:none;" placeholder="value">
+                                                        </div>
                                                     </div>
+                                                    <br>
                                                     <div class="e-field">
                                                         <input class="e-btn e-btn-primary" type="submit" value="Check" style="margin-top: 10px">
                                                     </div>

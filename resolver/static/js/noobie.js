@@ -32,12 +32,32 @@ function unhide(el) {
          }
          }
 
-function toggleField(hideObj,showObj){
- hideObj.disabled=true;     
- hideObj.style.display='none';
- showObj.disabled=false;    
- showObj.style.display='inline';
- showObj.focus();
- showObj.classList.add("e-input");
+function unhideCheck(that) {
+    if (that.value == "other") {
+        document.getElementById("customOption").style.display = "block";
+        document.getElementById("customOptionKey").style.display = "block";
+    } else {
+        document.getElementById("customOption").style.display = "none";
+        document.getElementById("customOptionKey").style.display = "none";
+    }
 }
 
+function unhide1(el) {
+         var checkBox = document.getElementById(el);
+         var element = document.getElementById("hidden1");
+         if (checkBox.checked == true){
+         element.classList.remove("e-hidden");
+         } else {
+         element.classList.add("e-hidden");
+         }
+         }
+
+         function unhideCheck1(that) {
+    if (that.value == "other") {
+        document.getElementById("customOption1").style.display = "block";
+        document.getElementById("customOptionKey1").style.display = "block";
+    } else {
+        document.getElementById("customOption1").style.display = "none";
+        document.getElementById("customOptionKey1").style.display = "none";
+    }
+}
