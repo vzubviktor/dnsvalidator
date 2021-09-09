@@ -6,6 +6,7 @@ import dns.resolver
 import dns.reversename
 from resolver.mxrules import *
 from resolver.nsrules import *
+from resolver.linkDomain_rules import *
 import csv
 import io
 
@@ -64,7 +65,7 @@ def compute(request):
 	if record_val == 'PTR':
 		for obj in domain_list:
 			record_result = get_ptr(obj)
-			obj = Domain( record_name = obj, record_type= record_val, record_result =  record_result, status = '' , comment = '' )
+			 
 			obj_list.append(obj)
 
 
@@ -320,7 +321,41 @@ def compute_multi(request):
 			result_list.append(final_output(domain, record))
 		obj_list.append(result_list)
 
-
-
-		
 	return render(request, 'multiple.html', { 'obj_list' : obj_list })
+
+
+
+
+### link subdomain and sender domain view 
+
+def linkDomain(request):
+	sender_domain = request.POST['senderDomain']
+	link_subdomain = request.POST['linkDomain']
+	
+	### get cname value for comaprison
+
+	def check_link_domain(domain):
+	
+		final_answers=[]
+
+		try:
+			answers=dns.resolver.resolve(domain, 'CNAME')
+			for value in answers:
+				final_answers.append(value.to_text())			
+		except Exception as e:
+			final_answers.append(str(e))
+		return final_answers[0]
+	
+	
+	def correct_link_domain(domain):
+		return domain.replace('.', '-') + '.emarsys.net.'
+
+	### create object for output and applies linkDomain rules 
+
+	answer = check_link_domain(link_subdomain)
+	correct_answer = correct_link_domain(link_subdomain)
+	stat_and_comm = linkDomain_rules(answer, correct_answer)
+	obj = Domain( record_name = link_subdomain, record_type= 'CNAME', record_result =  answer, status = stat_and_comm[0], comment = stat_and_comm[1] )
+
+	return render(request, 'linkDomain.html', {'obj' : obj})
+

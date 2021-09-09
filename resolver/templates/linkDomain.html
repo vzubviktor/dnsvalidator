@@ -1,0 +1,21 @@
+{% extends 'base.html' %}{% block content %}
+<table class="e-table" id=copyTable>
+    <tr>
+        <th class="e-table th">Domain</th>
+        <th class="e-table th">DNS record </th>
+        <th class="e-table th">Status</th>
+        <th class="e-table th">Comment</th>
+    </tr>
+    <tr>
+        <td class="e-table td">{{ obj.record_name }}</td>
+        <td class="e-table td">{{obj.record_result}}</td>
+        <td class="e-table td">{{obj.status}}</td>
+        <td class="e-table td">{{obj.comment}}</td>
+    </tr>
+    </table>
+<div class="center">
+    <input class="e-btn btn-lila" type="button" value="Copy to clip" onClick="copytable('copyTable')">
+    <input class="e-btn btn-yellow" id="downloadTable" type="button" value="Export table">
+    <input class="e-btn btn-green" type="button" value="Return back" onclick="history.back()">
+</div>
+{% endblock %}
