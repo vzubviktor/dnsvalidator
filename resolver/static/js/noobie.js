@@ -33,7 +33,7 @@ function unhide(el) {
          }
 
 function unhideCheck(that) {
-    if (that.value == "other") {
+    if (that.value == "custom") {
         document.getElementById("customOption").style.display = "block";
         document.getElementById("customOptionKey").style.display = "block";
     } else {
@@ -52,8 +52,9 @@ function unhide1(el) {
          }
          }
 
-         function unhideCheck1(that) {
-    if (that.value == "other") {
+     
+function unhideCheck1(that) {
+    if (that.value == "custom") {
         document.getElementById("customOption1").style.display = "block";
         document.getElementById("customOptionKey1").style.display = "block";
     } else {

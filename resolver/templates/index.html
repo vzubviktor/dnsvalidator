@@ -120,12 +120,12 @@
                                                             <label class="e-field__label" for="selector">
                                                             Selector
                                                             </label>
-                                                            <select class="e-select"  name="dkimSelect">
+                                                            <select class="e-select"  name="dkimSelect" onclick="unhideCheck(this)">
                                                                 <option value="key2" selected="selected">key2</option>
                                                                 <option value="key4">key4</option>
                                                                 <option value="key5">key5</option>
                                                                 <option value="key6">key6</option>
-                                                                <option value="other" onclick="unhideCheck(this)">custom</option>
+                                                                <option value="custom">custom</option>
                                                             </select>
                                                             <input class="e-input" style="display: none;" name="dkimSelector" id="customOption" placeholder="selector">
                                                         <input class="e-input" id="customOptionKey" name="dkimKey" style="display:none;" placeholder="value">
@@ -178,12 +178,12 @@
                                                             <label class="e-field__label" for="selector">
                                                             Selector
                                                             </label>
-                                                            <select class="e-select"  name="dkimSelect">
-                                                                <option value="key2" selected="selected">>key2</option>
+                                                            <select class="e-select"  name="dkimSelect"  onclick="unhideCheck1(this)">
+                                                                <option value="key2" selected="selected">key2</option>
                                                                 <option value="key4">key4</option>
                                                                 <option value="key5">key5</option>
                                                                 <option value="key6">key6</option>
-                                                                <option value="other" onclick="unhideCheck1(this)">custom</option>
+                                                                <option value="custom">custom</option>
                                                             </select>
                                                             <input class="e-input" style="display: none;" name="dkimSelector" id="customOption1" placeholder="selector">
                                                         <input class="e-input" id="customOptionKey1" name="dkimKey" style="display:none;" placeholder="value">
