@@ -7,25 +7,26 @@ def linkDomain_rules(answer, correct_answer):
 	comment = ''
 	status = ''
 	output = []
+	for record in answer:
 
-	if answer == correct_answer:
-		status = 'Valid'
-		comment = 'Link domain'
+		if answer == correct_answer:
+			status = 'Valid'
+			comment = 'Link domain'
 
-	elif 'The DNS' in answer:
-		status = 'Invalid'
-		comment = 'CNAME record not found'
+		elif 'The DNS' in answer:
+			status = 'Invalid'
+			comment = 'CNAME record not found'
 
-	elif answer != correct_answer:
-		status = 'Invalid'
-		comment = 'Incorrect CNAME record'
+		elif answer != correct_answer:
+			status = 'Invalid'
+			comment = 'Incorrect CNAME record'
 
-	else:
-		pass
+		else:
+			pass
 
-	output.append(status)
-	output.append(comment)
-	return output
+		output.append(status)
+		output.append(comment)
+		return output
 
 
 
@@ -37,25 +38,26 @@ def bounces_rules(answer, correct_answer):
 	comment = ''
 	status = ''
 	output = []
+	for record in answer:
 
-	if answer == correct_answer:
-		status = 'Valid'
-		comment = 'Return-path domain (rp only)'
+		if answer == correct_answer:
+			status = 'Valid'
+			comment = 'Return-path domain (rp only)'
 
-	elif 'The DNS' in answer:
-		status = 'Invalid'
-		comment = 'CNAME record not found'
+		elif 'The DNS' in answer:
+			status = 'Invalid'
+			comment = 'CNAME record not found'
 
-	elif answer != correct_answer:
-		status = 'Invalid'
-		comment = 'Incorrect value'
+		elif answer != correct_answer:
+			status = 'Invalid'
+			comment = 'Incorrect value'
 
-	else:
-		pass
+		else:
+			pass
 
-	output.append(status)
-	output.append(comment)
-	return output
+		output.append(status)
+		output.append(comment)
+		return output
 
 
 	### Rules for bounces
@@ -63,50 +65,53 @@ def key5_rules(answer, correct_answer):
 	comment = ''
 	status = ''
 	output = []
+	for record in answer:
 
-	if answer == correct_answer:
-		status = 'Valid'
-		comment = 'DKIM signature (sign with key5 only)'
+		if answer == correct_answer:
+			status = 'Valid'
+			comment = 'DKIM signature (sign with key5 only)'
 
-	elif 'The DNS' in answer:
-		status = 'Invalid'
-		comment = 'CNAME record not found'
+		elif 'The DNS' in answer:
+			status = 'Invalid'
+			comment = 'CNAME record not found'
 
-	elif answer != correct_answer:
-		status = 'Invalid'
-		comment = 'Incorrect value'
+		elif answer != correct_answer:
+			status = 'Invalid'
+			comment = 'Incorrect value'
 
-	else:
-		pass
+		else:
+			pass
 
-	output.append(status)
-	output.append(comment)
-	return output
+		output.append(status)
+		output.append(comment)
+		return output
 
 
 def key6_rules(answer, correct_answer):
 	comment = ''
 	status = ''
 	output = []
+	for record in answer:
 
-	if answer == correct_answer:
-		status = 'Valid'
-		comment = 'DKIM signature (sign with key5 only)'
 
-	elif 'The DNS' in answer:
-		status = 'Invalid'
-		comment = 'CNAME record not found'
+		if answer == correct_answer:
+			status = 'Valid'
+			comment = 'DKIM signature (sign with key5 only)'
 
-	elif answer != correct_answer:
-		status = 'Invalid'
-		comment = 'Incorrect value'
+		elif 'The DNS' in answer:
+			status = 'Invalid'
+			comment = 'CNAME record not found'
 
-	else:
-		pass
+		elif answer != correct_answer:
+			status = 'Invalid'
+			comment = 'Incorrect value'
 
-	output.append(status)
-	output.append(comment)
-	return output
+		else:
+			pass
+
+		output.append(status)
+		output.append(comment)
+		return output
 
 
 def mx_sender_rules(records):

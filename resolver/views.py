@@ -335,7 +335,7 @@ def linkDomain(request):
 				final_answers.append(value.to_text())			
 		except Exception as e:
 			final_answers.append(str(e))
-		return final_answers[0]
+		return final_answers
 
 	### get link domain functions 
 	
@@ -357,38 +357,38 @@ def linkDomain(request):
 		### create object for output and applies Bounces rules 
 
 	def bounces_sender_domain(domain):
-		bounces_domain  = 'bounces.' + domain
 		return check_cname_domain(bounces_domain)
-	
+
+	bounces_domain  = 'bounces.' + sender_domain
 	bounces_answer = bounces_sender_domain(sender_domain)
 	correct_bounces_answer = 'bounces.emarsys.net.'
 	stat_and_comm = bounces_rules(bounces_answer, correct_bounces_answer)
-	obj = Domain( record_name = sender_domain, record_type= 'CNAME', record_result =  bounces_answer, status = stat_and_comm[0], comment = stat_and_comm[1] )
+	obj = Domain( record_name = bounces_domain, record_type= 'CNAME', record_result =  bounces_answer, status = stat_and_comm[0], comment = stat_and_comm[1] )
 	obj_list.append(obj)
 
 
 		### create object for output and applies  key5.dkim Rules
 
 	def key5_sender_domain(domain):
-		key5_domain = 'key5._domainkey.' + domain
 		return check_cname_domain(key5_domain)
 
+	key5_domain = 'key5._domainkey.' + sender_domain
 	key5_answer = key5_sender_domain(sender_domain)
 	correct_key5_answer = 'key5.dkim.emarsys.net.'
 	stat_and_comm = key5_rules(key5_answer, correct_key5_answer)
-	obj = Domain( record_name = sender_domain, record_type= 'CNAME', record_result =  key5_answer, status = stat_and_comm[0], comment = stat_and_comm[1] )
+	obj = Domain( record_name = key5_domain, record_type= 'CNAME', record_result =  key5_answer, status = stat_and_comm[0], comment = stat_and_comm[1] )
 	obj_list.append(obj)
 
 		### create object for output and applies  key6.dkim Rules
 
 	def key6_sender_domain(domain):
-		key6_domain = 'key6._domainkey.' + domain
 		return check_cname_domain(key6_domain)
 
+	key6_domain = 'key6._domainkey.' + sender_domain
 	key6_answer = key6_sender_domain(sender_domain)
 	correct_key6_answer = 'key6.dkim.emarsys.net.'
 	stat_and_comm = key6_rules(key6_answer, correct_key6_answer)
-	obj = Domain( record_name = sender_domain, record_type= 'CNAME', record_result =  key6_answer, status = stat_and_comm[0], comment = stat_and_comm[1] )
+	obj = Domain( record_name = key6_domain, record_type= 'CNAME', record_result =  key6_answer, status = stat_and_comm[0], comment = stat_and_comm[1] )
 	obj_list.append(obj)
 
 		### create object for output and applies  mx Rules
@@ -434,12 +434,12 @@ def linkDomain(request):
 		### create object for output and applies  DMARC Rules
 
 	def dmarc_sender_domain(domain):
-		dmarc_domain = '_dmarc.' + domain
 		return txt_sender_domain(dmarc_domain)
 
+	dmarc_domain = '_dmarc.' + sender_domain
 	dmarc_answer = dmarc_sender_domain(sender_domain)
 	stat_and_comm = dmarc_sender_rules(dmarc_answer)
-	obj = Domain( record_name = sender_domain, record_type= 'DMARC', record_result =  dmarc_answer, status = stat_and_comm[0], comment = stat_and_comm[1] )
+	obj = Domain( record_name = dmarc_domain, record_type= 'DMARC', record_result =  dmarc_answer, status = stat_and_comm[0], comment = stat_and_comm[1] )
 	obj_list.append(obj)
 		
 
