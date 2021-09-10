@@ -2,12 +2,12 @@ import re
 
 
 ### Rules for Link domain 
-def linkDomain_rules(answer, correct_answer):
+def linkDomain_rules(answers, correct_answer):
 	
 	comment = ''
 	status = ''
 	output = []
-	for record in answer:
+	for answer in answers:
 
 		if answer == correct_answer:
 			status = 'Valid'
@@ -33,12 +33,12 @@ def linkDomain_rules(answer, correct_answer):
 ### Rules for sender domain 
 	### Rules for bounces
 
-def bounces_rules(answer, correct_answer):
+def bounces_rules(answers, correct_answer):
 
 	comment = ''
 	status = ''
 	output = []
-	for record in answer:
+	for answer in answers:
 
 		if answer == correct_answer:
 			status = 'Valid'
@@ -61,11 +61,11 @@ def bounces_rules(answer, correct_answer):
 
 
 	### Rules for bounces
-def key5_rules(answer, correct_answer):
+def key5_rules(answers, correct_answer):
 	comment = ''
 	status = ''
 	output = []
-	for record in answer:
+	for answer in answers:
 
 		if answer == correct_answer:
 			status = 'Valid'
@@ -87,11 +87,11 @@ def key5_rules(answer, correct_answer):
 		return output
 
 
-def key6_rules(answer, correct_answer):
+def key6_rules(answers, correct_answer):
 	comment = ''
 	status = ''
 	output = []
-	for record in answer:
+	for answer in answers:
 
 
 		if answer == correct_answer:
