@@ -219,5 +219,5 @@ def linkDomain(request):
 	obj_list.append(obj)
 		
 
-	return render(request, 'linkDomain.html', {'obj_list' : obj_list})
+	return render(request, 'result.html', {'obj_list' : obj_list})
 
