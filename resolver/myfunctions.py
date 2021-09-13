@@ -2,9 +2,11 @@ import dns.resolver
 import dns.reversename
 import csv
 import io
+from django.contrib.admin.utils import flatten
 
 from resolver.mxrules import *
 from resolver.nsrules import *
+from resolver.linkDomain_rules import *
 
 
 ### Function to process csv
@@ -93,3 +95,52 @@ def make_objlist(record_val, domain_list):
 			obj_list.append(obj)
 
 	return obj_list
+
+
+### creates output for multiple domains and multiple records
+def multi_output(domain, record_val):
+		
+
+		if record_val == 'PTR':
+			
+			record_result = get_ptr(domain, record_val)
+			obj = Domain( record_name = domain, record_type= record_val, record_result =  record_result, status = '' , comment = '' )
+			return obj
+
+		### create objects for MX records and applies rules
+		elif record_val == 'MX':
+
+			record_result = get_records(domain, record_val)
+			mx_objects = mx_create(record_result)
+			stat_and_comm = mx_rules(mx_objects)
+			obj = Domain( record_name = domain, record_type= record_val, record_result =  record_result, status = stat_and_comm[0], comment = stat_and_comm[1] )
+			return obj
+
+		### create objects for NS records and applies rules
+
+		elif record_val == 'NS':
+			
+			record_result = get_records(domain, record_val)
+			ns_objects = ns_create(record_result)
+			stat_and_comm = ns_rules(ns_objects)
+			obj = Domain( record_name = domain, record_type= record_val, record_result =  record_result, status = stat_and_comm[0], comment = stat_and_comm[1] )
+			return obj
+		
+		### create objects for DMARC records and applies rules
+
+		elif record_val == 'DMARC':
+			dmarc_domain = '_dmarc.' + domain
+			dmarc_answer = get_records(dmarc_domain,'TXT')
+			stat_and_comm = dmarc_sender_rules(dmarc_answer)
+			obj = Domain( record_name = dmarc_domain, record_type= 'DMARC', record_result =  dmarc_answer, status = stat_and_comm[0], comment = stat_and_comm[1] )
+			return obj
+
+
+		### create objects for domains and records with no rules
+		else:
+			
+			record_result = get_records(domain, record_val)
+			# mx_objects = mx_create(record_result)
+			# stat_and_comm = mx_rules(mx_objects)
+			obj = Domain( record_name = domain, record_type= record_val, record_result =  record_result, status = '' , comment = '' )
+			return obj

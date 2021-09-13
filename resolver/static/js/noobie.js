@@ -36,6 +36,7 @@ function unhideCheck(that) {
     if (that.value == "custom") {
         document.getElementById("customOption").style.display = "block";
         document.getElementById("customOptionKey").style.display = "block";
+        console.log(document.getElementById.value);
     } else {
         document.getElementById("customOption").style.display = "none";
         document.getElementById("customOptionKey").style.display = "none";
@@ -54,11 +55,34 @@ function unhide1(el) {
 
      
 function unhideCheck1(that) {
-    if (that.value == "custom") {
+    if (that.id == "customSelector") {
         document.getElementById("customOption1").style.display = "block";
         document.getElementById("customOptionKey1").style.display = "block";
+
     } else {
         document.getElementById("customOption1").style.display = "none";
         document.getElementById("customOptionKey1").style.display = "none";
     }
+}
+
+function  setVal() {
+    const customOption = document.getElementById("customOption1").value
+    const customOptionKey = document.getElementById("customOptionKey1").value
+    const customOutput = customOption+':'+customOptionKey
+    document.getElementById("customSelector").value = customOutput
+
+
+   
+   console.log(customOption);
+
+}
+
+function updateInput1(data){
+    document.getElementById("customOption1").value = data;
+    console.log(data);
+}
+
+function updateInput2(data){
+    document.getElementById("customOptionKey1").value = data;
+    console.log(data);
 }

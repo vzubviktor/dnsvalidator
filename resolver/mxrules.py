@@ -77,11 +77,11 @@ def mx_rules(objects):
 				if 'emarsys.net' in i.domain or 'mx.eemms.net.' in i.domain:
 					pass
 			else:
-				status = 'Wrong returnpath configuration'
-				comment = 'no matching MX records found'
+				status = 'Invalid'
+				comment = 'Wrong returnpath configuration. No matching MX records found'
 		except:
-			status = 'Wrong returnpath configuration'
-			comment = 'no matching MX records found'
+			status = 'Invalid'
+			comment = 'Wrong returnpath configuration. No matching MX records found'
 
 	else:
 		pass
@@ -91,8 +91,8 @@ def mx_rules(objects):
 	if (len(set(domain_list))==2):
 		if 'return1.emarsys.net.' in domain_list and 'return0.emarsys.net.' in domain_list:
 			if (len(set(priority_list))==1):
-				status = 'Correct returnpath configuration'
-				comment = ''
+				status = 'Valid'
+				comment = 'Correct returnpath configuration'
 
 	else: 
 		pass
@@ -101,8 +101,8 @@ def mx_rules(objects):
 
 	if (len(set(domain_list))==1):
 		if 'mx.eemms.net.' in domain_list:
-			status = 'Wrong returnpath configuration'
-			comment = 'MX record  matching the Suite Reply Management'
+			status = 'Invalid'
+			comment = 'Wrong returnpath configuration. MX record  matching the Suite Reply Management'
 	else:
 		pass
 
@@ -111,8 +111,8 @@ def mx_rules(objects):
 	if 'return1.emarsys.net.' in domain_list and 'return0.emarsys.net.' in domain_list: 
 		if (len(set(domain_list)) > 2):
 			if (len(set(priority_list))==1):
-				status = 'Wrong returnpath configuration'
-				comment = 'The extra domains should be removed'
+				status = 'Invalid'
+				comment = 'Wrong returnpath configuration. The extra mail servers should be removed'
 			else:
 				emarsys_list = []
 				other_list = []
@@ -123,8 +123,8 @@ def mx_rules(objects):
 						other_list.append(i.priority)
 				if emarsys_list[0] == emarsys_list[1]:
 					if emarsys_list[0] in other_list:
-						status = 'Wrong returnpath configuration'
-						comment = 'The extra domains should be removed'
+						status = 'Invalid'
+						comment = 'Wrong returnpath configuration. The extra mail servers should be removed'
 					else:
 						pass
 				else:
@@ -147,8 +147,8 @@ def mx_rules(objects):
 					other_list.append(int(i.priority))
 			for li in other_list:
 				if li > emarsys_list[0] and li > emarsys_list[1]:
-						status = 'Correct returnpath configuration *'
-						comment = 'required MX records are present but there are additional records with lower priorities'
+						status = 'Valid'
+						comment = 'Partially correct returnpath configuration. Required MX records are present but there are additional records with lower priorities'
 				else:
 					status = ''
 					comment = ''
@@ -173,8 +173,8 @@ def mx_rules(objects):
 
 				for li in other_list:
 					if li > emarsys_list[0] and li > emarsys_list[1]:
-						status = 'Incomplete returnpath configuration'
-						comment = 'Required MX records are found but the priority is wrong and there are also other records with lower priority'
+						status = 'Invalid'
+						comment = 'Incomplete returnpath configuration. Required MX records are found but the priority is wrong and there are also other records with lower priority'
 					else:
 						pass
 			else: 
@@ -200,8 +200,8 @@ def mx_rules(objects):
 
 				for li in other_list:
 					if li < emarsys_list[0] and li < emarsys_list[1]:
-						status = 'Wrong returnpath configuration'
-						comment = 'Emarsys records should have have the highest priority (the lower number the higher priority) '
+						status = 'Invalid'
+						comment = 'Wrong returnpath configuration. Emarsys records should have have the highest priority (the lower number the higher the priority)'
 					else:
 						pass
 			else: 
@@ -217,16 +217,16 @@ def mx_rules(objects):
 	# Table 6 case
 
 	if 'return0.emarsys.net.' in domain_list and 'return1.emarsys.net.' not in domain_list: 
-		status = 'Incomplete returnpath configuration'
-		comment ='return1.emarsys.net record is missing'
+		status = 'Invalid'
+		comment ='Incomplete returnpath configuration. return1.emarsys.net record is missing'
 	else:
 		pass
 
 	# Table 7 case
 
 	if 'return1.emarsys.net.' in domain_list and 'return0.emarsys.net.' not in domain_list: 
-		status = 'Incomplete returnpath configuration'
-		comment ='return0.emarsys.net record is missing'
+		status = 'Invalid'
+		comment ='Incomplete returnpath configuration. return0.emarsys.net record is missing'
 	else:
 		pass
 
@@ -242,8 +242,8 @@ def mx_rules(objects):
 				other_list.append(int(i.priority))
 		for li in other_list:
 			if li > emarsys_list[0]:
-				status = 'Wrong returnpath configuration'
-				comment = 'MX record matching the Suite Reply Management, but there are also other records with a lower priority. Replies will be managed by Emarsys'
+				status = 'Invalid'
+				comment = 'Wrong returnpath configuration. MX record matching the Suite Reply Management, but there are also other records with a lower priority. Replies will be managed by Emarsys'
 			else:
 				pass
 	else:
@@ -256,8 +256,8 @@ def mx_rules(objects):
 	if 'return1.emarsys.net.' in domain_list and 'return0.emarsys.net.' in domain_list:
 		if (len(set(domain_list)) == 2):
 			if (len(set(priority_list))!=1):
-				status = 'Incomplete returnpath configuration'
-				comment = 'Required MX records are found but the priority is invalid. Emarsys records should have the highest priority'
+				status = 'Invalid'
+				comment = 'Incomplete returnpath configuration. Required MX records are found but the priority is invalid. Emarsys records should have the highest priority'
 			else:
 				pass
 		else:
@@ -276,8 +276,8 @@ def mx_rules(objects):
 				other_list.append(int(i.priority))
 		for li in other_list:
 			if li < emarsys_list[0]:
-				status = 'Wrong returnpath configuration'
-				comment = 'MX record matching the Suite Reply Management, but it has a lower priority. Replies will not be managed by Emarsys'
+				status = 'Invalid'
+				comment = 'Wrong returnpath configuration. MX record matching the Suite Reply Management, but it has a lower priority. Replies will not be managed by Emarsys'
 			else:
 				pass
 	else:
@@ -304,8 +304,8 @@ def mx_rules(objects):
 				else:
 					other_list.append(i.priority)
 			if len(emarsys_list) == len(domain_list):
-				status = 'Old returnpath configuration'
-				comment = 'New MX setup should be advised'
+				status = 'Valid'
+				comment = 'Legacy returnpath configuration. New MX setup should be advised'
 			else:
 				pass
 
@@ -331,8 +331,8 @@ def mx_rules(objects):
 				else:
 					other_list.append(i.priority)
 			if len(emarsys_list) == len(domain_list):
-				status = 'Incomplete old returnpath configuration '
-				comment = 'Priorities are invalid. New MX setup should be advised'
+				status = 'Invalid'
+				comment = 'Incomplete legacy returnpath configuration. Priorities are invalid. New MX setup should be advised'
 			else:
 				pass
 
@@ -361,8 +361,8 @@ def mx_rules(objects):
 				for i in other_list:
 					for j in emarsys_list:
 						if j > i:
-							status = 'Wrong returnpath configuration'
-							comment = 'Emarsys records should have have the highest priority (the lower number the higher priority) '
+							status = 'Invalid'
+							comment = 'Wrong returnpath configuration. Emarsys records should have have the highest priority (the lower number the higher priority) '
 						else:
 							pass
 
@@ -397,8 +397,8 @@ def mx_rules(objects):
 				for i in check_list:
 					for j in emarsys_list:
 						if j.priority > i.priority and j.domain != i.domain:
-							status = 'Wrong returnpath configuration'
-							comment = 'MX record matching the Suite Reply Management. Replies will be managed by Emarsys'
+							status = 'Invalid'
+							comment = 'Wrong returnpath configuration. MX record matching the Suite Reply Management. Replies will be managed by Emarsys'
 						else:
 							pass
 			else:
@@ -428,8 +428,8 @@ def mx_rules(objects):
 				for i in other_list:
 					for j in emarsys_list:
 						if j < i:
-							status = 'Old returnpath configuration'
-							comment = 'New MX setup should be advised. There are other records with a lower priority '
+							status = 'Valid'
+							comment = 'Legacy returnpath configuration. New MX setup should be advised. There are other records with a lower priority '
 						else:
 							pass
 
@@ -462,8 +462,8 @@ def mx_rules(objects):
 					for i in other_list:
 						for j in emarsys_list:
 							if j > i:
-								status = 'Incomplete old returnpath configuration '
-								comment = 'Old returnpath MX records are found but the priority is invalid. Emarsys records should have the highest priority'
+								status = 'Invalid'
+								comment = 'Incomplete legacy returnpath configuration. The legacy returnpath MX records are found but the priority is invalid. Emarsys records should have the highest priority'
 							else:
 								pass
 				else:
@@ -477,12 +477,12 @@ def mx_rules(objects):
 
 	elif 'error' in priority_list:
 		if 'The DNS query name does not exist' in str(domain_list[0]) or 'The DNS response does not contain' in str(domain_list[0]) :
-			status = 'Wrong returnpath configuration'
-			comment = '  MX not found '
+			status = 'Invalid'
+			comment = 'Wrong returnpath configuration. MX not found'
 
 		elif 'All nameservers failed to answer' in str(domain_list[0]):
-			status = 'Wrong returnpath configuration'
-			comment = 'DNS query failed'
+			status = 'Invalid'
+			comment = 'Wrong returnpath configuration. DNS query failed'
 		else:
 			pass
 	else:

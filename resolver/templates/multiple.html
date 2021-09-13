@@ -1,6 +1,7 @@
 {% extends 'base.html' %}{% block content %}
+{{records}}
 
-    {% for obj_arr in obj_list %}
+    
     <table class="e-table" id=copyTable>
     <tr>
         <th class="e-table th">Domain</th>
@@ -9,7 +10,7 @@
         <th class="e-table th">Status</th>
         <th class="e-table th">Comment</th>
     </tr>
-    {% for obj in obj_arr  %} 
+    {% for obj_arr in obj_list %} {% for obj in obj_arr  %}
     <tr>
         <td class="e-table td">{{ obj.record_name }}</td>
         <td class="e-table td">{{ obj.record_type }}</td>

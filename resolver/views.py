@@ -36,7 +36,7 @@ def compute(request):
 
 
 
-
+### process domain or list of domains with single record check 
 def compute_csv(request):
 	if request.method=='POST':
 		csv_file = request.FILES['csv_file']
@@ -58,93 +58,24 @@ def compute_csv(request):
 
 
 
-
+### process domain or list of domains with multiple record check 
 def compute_multi(request):
 	domains = request.POST['domains']
 	delimitor = request.POST['delimitor']
 	domain_list= domains.split(delimitor)
 	if request.method == 'POST':
 		records  = request.POST.getlist('records')
-
-	def get_records(domain, record_val):
-	# import dns.resolver
-		final_answers=[]
-
-		try:
-			answers=dns.resolver.resolve(domain, record_val)
-			for value in answers:
-				final_answers.append(value.to_text())			
-		except Exception as e:
-			final_answers.append(str(e))
-		return final_answers
-
-	### IF PTR record - processe ip to get pter record
-
-	def get_ptr(address):
-		final_answers=[]
-		try:
-			domain_address = dns.reversename.from_address(address)
-			ptr_record = dns.resolver.resolve(domain_address, 'PTR')[0]
-			final_answers.append(ptr_record)
-		except Exception as e:
-			final_answers.append(e)
-		return final_answers
-
-### finalizes object for output to frontend
-
 	obj_list = []
 
-	### creates objects for PTR record
-
-	def final_output(domain, record_val):
-		
-
-		if record_val == 'PTR':
-			
-			record_result = get_ptr(domain, record_val)
-			obj = Domain( record_name = domain, record_type= record_val, record_result =  record_result, status = '' , comment = '' )
-			return obj
-
-		### create objects for MX records and applies rules
-		elif record_val == 'MX':
-
-			record_result = get_records(domain, record_val)
-			mx_objects = mx_create(record_result)
-			stat_and_comm = mx_rules(mx_objects)
-			obj = Domain( record_name = domain, record_type= record_val, record_result =  record_result, status = stat_and_comm[0], comment = stat_and_comm[1] )
-			return obj
-
-		### create objects for NS records and applies rules
-
-		elif record_val == 'NS':
-			
-			record_result = get_records(domain, record_val)
-			ns_objects = ns_create(record_result)
-			stat_and_comm = ns_rules(ns_objects)
-			obj = Domain( record_name = domain, record_type= record_val, record_result =  record_result, status = stat_and_comm[0], comment = stat_and_comm[1] )
-			return obj
-
-		### create objects for domains and records with no rules
-		else:
-			
-			record_result = get_records(domain, record_val)
-			# mx_objects = mx_create(record_result)
-			# stat_and_comm = mx_rules(mx_objects)
-			obj = Domain( record_name = domain, record_type= record_val, record_result =  record_result, status = '' , comment = '' )
-			return obj
-
+	
+	
 	for domain in domain_list:
 		result_list = []
 		for record in records:
-			result_list.append(final_output(domain, record))
+			result_list.append(multi_output(domain, record))
 		obj_list.append(result_list)
 
-	return render(request, 'multiple.html', { 'obj_list' : obj_list })
-
-
-
-
-
+	return render(request, 'multiple.html', { 'obj_list' : obj_list, 'records' : records})
 
 
 
