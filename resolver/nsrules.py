@@ -13,8 +13,8 @@ def ns_create(result_list):
 ### defines rules for ns records
 def ns_rules(objects):
 	output = []
-	status = 'Not delegated to Emarsys'
-	comment = ''
+	status = 'Invalid'
+	comment = 'Not delegated to Emarsys'
 	domain_list = [ i.domain for i in objects]
 
 	test_list = []
@@ -42,8 +42,8 @@ def ns_rules(objects):
 				pass
 		if len(compare_list) == len(check_list):
 
-			status = 'Probably delegated to Emarsys'
-			comment = 'It could be delegated to Emarsys, but vanity setup is not configured in DNSMadeEasy'
+			status = 'Unknown'
+			comment = 'It could be delegated to Emarsys, but the vanity setup is not configured in DNSMadeEasy'
 		else:
 			pass
 	# else:
@@ -63,8 +63,8 @@ def ns_rules(objects):
 		domain_list.sort()
 		check_list.sort()
 		if domain_list == check_list:
-			status = 'Delegated to Emarsys'
-			comment = ''
+			status = 'Valid'
+			comment = 'Delegated to Emarsys'
 		else:
 			pass
 	
@@ -72,8 +72,8 @@ def ns_rules(objects):
 	### Rule 3
 
 	elif 'The DNS query name does not exist' in str(domain_list[0]):
-		status ='No NS records'
-		comment = 'Sometimes the NS records will NOT SHOW until the setup in DNS Made Easy is completed.'
+		status ='Unknown'
+		comment = 'No NS records. Sometimes the NS records will NOT SHOW until the setup in DNS Made Easy is completed.'
 
 	### if no rules apply	
 

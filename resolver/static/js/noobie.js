@@ -33,13 +33,15 @@ function unhide(el) {
          }
 
 function unhideCheck(that) {
-    if (that.value == "custom") {
-        document.getElementById("customOption").style.display = "block";
-        document.getElementById("customOptionKey").style.display = "block";
-        console.log(document.getElementById.value);
-    } else {
+    if (that.value == "key2" || that.value == "key4" || that.value == "key5" || that.value == "key6") {
         document.getElementById("customOption").style.display = "none";
         document.getElementById("customOptionKey").style.display = "none";
+
+        
+    } else {
+       document.getElementById("customOption").style.display = "block";
+        document.getElementById("customOptionKey").style.display = "block";
+        console.log(document.getElementById.value);
     }
 }
 

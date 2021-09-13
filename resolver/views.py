@@ -136,7 +136,7 @@ def linkDomain(request):
 		### create object for output and applies  TXT Rules
 	
 			
-	txt_answer = get_records(sender_domain,'TXT')
+	txt_answer = [ i.replace('"','') for i in  get_records(sender_domain,'TXT')]
 	stat_and_comm = txt_sender_rules(txt_answer)
 	obj = Domain( record_name = sender_domain, record_type= 'TXT', record_result =  txt_answer, status = stat_and_comm[0], comment = stat_and_comm[1] )
 	obj_list.append(obj)
@@ -144,7 +144,7 @@ def linkDomain(request):
 		### create object for output and applies  DMARC Rules
 	
 	dmarc_domain = '_dmarc.' + sender_domain
-	dmarc_answer = get_records(dmarc_domain,'TXT')
+	dmarc_answer = [ i.replace('"','') for i in  get_records(dmarc_domain,'TXT')]
 	stat_and_comm = dmarc_sender_rules(dmarc_answer)
 	obj = Domain( record_name = dmarc_domain, record_type= 'DMARC', record_result =  dmarc_answer, status = stat_and_comm[0], comment = stat_and_comm[1] )
 	obj_list.append(obj)
