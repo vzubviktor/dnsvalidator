@@ -40,17 +40,21 @@ def compute(request):
 def compute_csv(request):
 	if request.method=='POST':
 		csv_file = request.FILES['csv_file']
-		record_val = request.POST['records']
+		record_val = request.POST.getlist('records')
 	domain_list = process_csv(csv_file)
-	obj_list = make_objlist(record_val, domain_lists)### resolve records for given domain and prepare result for output 
+	obj_list = []
+	for domain in domain_list:
+		for record in record_val:
+			if record:
+				obj_list.append(multi_output_csv(domain, record ))
 
 	### writes csv files with results and output to frontend 
 	response = HttpResponse(content_type = 'text/csv')
 	writer  = csv.writer(response, lineterminator='\n')
-	writer.writerow(['domain' , 'DNS record', 'status' , 'comment'])
+	writer.writerow(['domain' , 'record type', 'DNS record', 'status' , 'comment'])
 	for obj in obj_list:
-		str_record_result = '\n'.join(obj.record_result)
-		writer.writerow( [obj.record_name, str_record_result, obj.status, obj.comment] )
+		str_record_result = ''.join(obj.record_result)
+		writer.writerow( [obj.record_name, obj.record_type, str_record_result, obj.status, obj.comment] )
 	response['Content-Disposition'] = 'attachment; filename="result.csv"'
 
 	return response

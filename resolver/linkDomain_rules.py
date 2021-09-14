@@ -198,7 +198,7 @@ def dmarc_sender_rules(records):
 
 def key_sender_rules(record_val, key_answer):
 	comment = ''
-	status = ''
+	status = 'Invalid'
 	output = []
 	for answer in key_answer:
 		

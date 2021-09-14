@@ -28,6 +28,13 @@ def spf_records(records):
 			result.append(record)
 	return result
 
+def spf_recordsCsv(records):
+	result = []
+	for record in records:
+		if record.startswith('"v=spf1'):
+			result.append(record)
+	return result
+
 
 def get_records(domain,record_val):
 # import dns.resolver
@@ -131,9 +138,16 @@ def multi_output(domain, record_val):
 		elif record_val == '':
 			pass
 
+		elif record_val == 'MX':
+			record_result = get_records(domain, 'MX')
+			stat_and_comm = new_mx_rules(record_result)
+			obj = Domain( record_name = domain, record_type= 'MX', record_result =  record_result, status = stat_and_comm[0], comment = stat_and_comm[1] )
+			return obj
+
 
 		### create objects for MX records and applies rules
 		elif record_val == 'mxForCRP':
+
 
 			record_result = get_records(domain, 'MX')
 			mx_objects = mx_create(record_result)
@@ -171,7 +185,7 @@ def multi_output(domain, record_val):
 
 		
 
-		### create objects for Custom key and selector records and applies rules
+		### create objects for Custom dkim key and selector records and applies rules
 
 		elif ':' in record_val:
 			custom = record_val.split(':')
@@ -180,14 +194,14 @@ def multi_output(domain, record_val):
 			key_domain  = key + '._domainkey.' + domain
 			key_answer = [ i.replace('"','') for i in  get_records(key_domain, 'TXT')]
 			stat_and_comm = custom_sender_rules(value, key_answer, key)
-			obj = Domain( record_name = key_domain, record_type= 'TXT', record_result =  key_answer, status = stat_and_comm[0], comment = stat_and_comm[1] )
+			obj = Domain( record_name = key_domain, record_type= 'DKIM', record_result =  key_answer, status = stat_and_comm[0], comment = stat_and_comm[1] )
 			return obj
 
 		elif 'key' in record_val and not ':'  in record_val:
 			key_domain  = record_val + '._domainkey.' + domain
 			key_answer = [ i.replace('"','') for i in  get_records(key_domain, 'TXT')]
 			stat_and_comm = key_sender_rules(record_val, key_answer)
-			obj = Domain( record_name = key_domain, record_type= 'TXT', record_result =  key_answer, status = stat_and_comm[0], comment = stat_and_comm[1] )
+			obj = Domain( record_name = key_domain, record_type= 'DKIM', record_result =  key_answer, status = stat_and_comm[0], comment = stat_and_comm[1] )
 			return obj
 
 
@@ -199,3 +213,96 @@ def multi_output(domain, record_val):
 			# stat_and_comm = mx_rules(mx_objects)
 			obj = Domain( record_name = domain, record_type= record_val, record_result =  record_result, status = '' , comment = '' )
 			return obj
+
+
+
+
+
+def multi_output_csv(domain, record_val):
+		
+
+		if record_val == 'PTR':
+			
+			record_result = get_ptr(domain, record_val)
+			obj = Domain( record_name = domain, record_type= record_val, record_result =  record_result, status = '' , comment = '' )
+			return obj
+
+		elif record_val == '':
+			pass
+
+
+		elif record_val == 'MX':
+			record_result = get_records(domain, 'MX')
+			stat_and_comm = new_mx_rules(record_result)
+			obj = Domain( record_name = domain, record_type= 'MX', record_result =  record_result, status = stat_and_comm[0], comment = stat_and_comm[1] )
+			return obj
+
+
+		### create objects for MX records and applies rules
+		elif record_val == 'mxForCRP':
+
+			record_result = get_records(domain, 'MX')
+			mx_objects = mx_create(record_result)
+			stat_and_comm = mx_rules(mx_objects)
+			obj = Domain( record_name = domain, record_type= 'MX for CRP', record_result =  record_result, status = stat_and_comm[0], comment = stat_and_comm[1] )
+			return obj
+
+		### create objects for NS records and applies rules
+
+		elif record_val == 'NS':
+			
+			record_result = get_records(domain, record_val)
+			ns_objects = ns_create(record_result)
+			stat_and_comm = ns_rules(ns_objects)
+			obj = Domain( record_name = domain, record_type= record_val, record_result =  record_result, status = stat_and_comm[0], comment = stat_and_comm[1] )
+			return obj
+		
+		### create objects for SPF records and applies rules
+
+		elif record_val == 'SPF':
+			
+			record_result = [ i.replace('"','') for i in  get_records(domain, 'TXT')]
+			stat_and_comm = spf_rules(record_result)
+			obj = Domain( record_name = domain, record_type= record_val, record_result =  spf_recordsCsv(get_records(domain, 'TXT')), status = stat_and_comm[0], comment = stat_and_comm[1] )
+			return obj
+
+		### create objects for DMARC records and applies rules
+
+		elif record_val == 'DMARC':
+			dmarc_domain = '_dmarc.' + domain
+			dmarc_answer = [ i.replace('"','') for i in  get_records(dmarc_domain, 'TXT')]
+			stat_and_comm = dmarc_sender_rules(dmarc_answer)
+			obj = Domain( record_name = dmarc_domain, record_type= 'DMARC', record_result =  get_records(dmarc_domain, 'TXT'), status = stat_and_comm[0], comment = stat_and_comm[1] )
+			return obj
+
+		
+
+		### create objects for Custom key and selector records and applies rules
+
+		elif ':' in record_val:
+			custom = record_val.split(':')
+			key = custom[0]
+			value = custom[1]
+			key_domain  = key + '._domainkey.' + domain
+			key_answer = [ i.replace('"','') for i in  get_records(key_domain, 'TXT')]
+			stat_and_comm = custom_sender_rules(value, key_answer, key)
+			obj = Domain( record_name = key_domain, record_type= 'DKIM', record_result =  get_records(key_domain, 'TXT'), status = stat_and_comm[0], comment = stat_and_comm[1] )
+			return obj
+
+		elif 'key' in record_val and not ':'  in record_val:
+			key_domain  = record_val + '._domainkey.' + domain
+			key_answer = [ i.replace('"','') for i in  get_records(key_domain, 'TXT')]
+			stat_and_comm = key_sender_rules(record_val, key_answer)
+			obj = Domain( record_name = key_domain, record_type= 'DKIM', record_result =  get_records(key_domain, 'TXT'), status = stat_and_comm[0], comment = stat_and_comm[1] )
+			return obj
+
+
+		### create objects for domains and records with no rules
+		else:
+			
+			record_result = get_records(domain, record_val)
+			# mx_objects = mx_create(record_result)
+			# stat_and_comm = mx_rules(mx_objects)
+			obj = Domain( record_name = domain, record_type= record_val, record_result =  record_result, status = '' , comment = '' )
+			return obj
+

@@ -494,3 +494,26 @@ def mx_rules(objects):
 	output.append(status)
 	output.append(comment)
 	return output 
+
+
+def new_mx_rules(records):
+	comment = ''
+	status = ''
+	output = []
+	for record in records: #тут надо изменить, что она будет единственной в рекорде (там еще приоритет выдается, но он всегда число)
+		if 'mx.eemms.net.' in record :
+			status = 'Valid'
+			comment = 'Emarsys Reply Management configuration'
+		elif 'e3uspmta1.emarsys.net.' in record or 'e3uspmta2.emarsys.net.' in record or 'e3uspmta3.emarsys.net.' in record or 'e3uspmta4.emarsys.net.' in record or 'e3uspmta5.emarsys.net.' in record or 'e3uspmta6.emarsys.net.' in record or 'e3uspmta7.emarsys.net.' in record or 'e3uspmta8.emarsys.net.' in record or 'e3uspmta9.emarsys.net.' in record or 'e3uspmta10.emarsys.net.' in record or 'suitepmta02.emarsys.net.' in record or 'suitepmta01.emarsys.net.' in record or 'return1.emarsys.net.' in record or 'return0.emarsys.net.' in record:
+			status = 'Unknown'
+			comment = 'Custom Returnpath MX records should be checked with "MX CRP" checkbox'
+		
+		elif 'The DNS' in record:
+			status = 'Invalid'
+			comment = 'MX record(s) not found'
+		else:
+			status = 'Valid'
+			comment = 'Customer domain incoming mail server'
+	output.append(status)
+	output.append(comment)
+	return output

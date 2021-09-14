@@ -156,49 +156,55 @@
                                              Upload a CSV or TXT file with a list of domains
                                             </label>
                                             <div class="e-box center" style="max-width:40%">
-                                                <form method="post" action="compute_csv">
+                                                <form method="post" action="compute_csv"  enctype="multipart/form-data">
                                                     {% csrf_token %}
-                                                    <input class="e-btn-fileinput input" type="file" id="csvFileInputMulti" name="csvFile">
+                                                    <input class="e-btn-fileinput input" type="file" id="csvFileInput" name="csv_file" required  multiple accept=".csv, .txt">
                                                     <div class="e-field">
-                                                    <input class="e-checkbox" type="checkbox" value="MX" id="MX1" name="records">
-                                                    <label for="MX1">
-                                                    MX
-                                                    </label>
-                                                    <input class="e-checkbox" type="checkbox" value="NS" id="NS1" name="records">
-                                                    <label for="NS1">
-                                                    NS
-                                                    </label>
-                                                    <input class="e-checkbox" type="checkbox" value="SPF" id="SPF1" name="records">
-                                                    <label for="SPF1">
-                                                    SPF
-                                                    </label>
-                                                    <input class="e-checkbox" type="checkbox" id="DMARC1">
-                                                    <label for="DMARC1">
-                                                    DMARC
-                                                    </label>
-                                                    <input class="e-checkbox" type="checkbox" id="DKIM1" onclick="unhide1('DKIM1')">
-                                                    <label for="DKIM1">
-                                                    DKIM
-                                                    </label>
-                                                    <div class="e-hidden" id="hidden1">
-                                                        <div class="e-field">
-                                                            <label class="e-field__label" for="selector">
-                                                            Selector
-                                                            </label>
-                                                            <select class="e-select"  name="dkimSelect">
-                                                                <option value="key2">key2</option>
-                                                                <option value="key4">key4</option>
-                                                                <option value="key5">key5</option>
-                                                                <option value="key6">key6</option>
-                                                                <option value="other" onclick="unhideCheck1(this)">custom</option>
-                                                            </select>
-                                                            <input class="e-input" style="display: none;" name="dkimSelector" id="customOption1" placeholder="selector" >
-                                                        <input class="e-input" id="customOptionKey1" name="dkimKey" style="display:none;" placeholder="value">
+                                                        <input class="e-checkbox" type="checkbox" value="MX" id="MX1" name="records">
+                                                        <label for="MX1">
+                                                        MX
+                                                        </label>
+                                                        <input class="e-checkbox" type="checkbox" value="mxForCRP" id="mxForCRP1" name="records">
+                                                        <label for="mxForCRP1">
+                                                        MX for CRP
+                                                        </label>
+                                                        <input class="e-checkbox" type="checkbox" value="NS" id="NS1" name="records">
+                                                        <label for="NS1">
+                                                        NS
+                                                        </label>
+                                                        <input class="e-checkbox" type="checkbox" value="SPF" id="SPF1" name="records">
+                                                        <label for="SPF1">
+                                                        SPF
+                                                        </label>
+                                                        <input class="e-checkbox" type="checkbox" id="DMARC1" value="DMARC" name="records"   >
+                                                        <label for="DMARC1">
+                                                        DMARC
+                                                        </label>
+                                                        <input class="e-checkbox" type="checkbox" id="DKIM1" onclick="unhide1('DKIM1')"  >
+                                                        <label for="DKIM1">
+                                                        DKIM
+                                                        </label>
+                                                        <div class="e-hidden" id="hidden1">
+                                                            <div class="e-field">
+                                                                <label class="e-field__label" for="selector">
+                                                                Selector
+                                                                </label>
+                                                                <select class="e-select" name="records" onclick="unhideCheck1(this)">custom</option>
+                                                                    <option value=""></option>  
+                                                                    <option value="key2">key2</option>
+                                                                    <option value="key4">key4</option>
+                                                                    <option value="key5">key5</option>
+                                                                    <option value="key6">key6</option>
+                                                                    <option value="custom" id = 'customSelector1' onclick="unhideCheck1(this)">custom</option>
+                                                                </select>
+                                                                <input class="e-input" style="display: none;" name="dkimSelector1" onchange="updateInput1(value)" id="customOption1" placeholder="selector">
+                                                            <input class="e-input" id="customOptionKey1" onchange="updateInput2(value)" name="dkimKey" style="display:none;" placeholder="value">
+                                                            </div>
                                                         </div>
-                                                    </div>
-                                                    <br>
-                                                    <div class="e-field">
-                                                        <input class="e-btn e-btn-primary" type="submit" value="Check" style="margin-top: 10px">
+                                                        
+                                                        <div class="e-field">
+                                                            <input class="e-btn btn-lila" type="submit" onclick="setVal1()"  value="Check">
+                                                        </div>
                                                     </div>
                                                 </form>
                                             </div>

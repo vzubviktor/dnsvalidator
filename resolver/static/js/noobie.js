@@ -57,13 +57,15 @@ function unhide1(el) {
 
      
 function unhideCheck1(that) {
-    if (that.id == "customSelector") {
-        document.getElementById("customOption1").style.display = "block";
-        document.getElementById("customOptionKey1").style.display = "block";
-
-    } else {
+    if (that.value == "key2" || that.value == "key4" || that.value == "key5" || that.value == "key6") {
         document.getElementById("customOption1").style.display = "none";
         document.getElementById("customOptionKey1").style.display = "none";
+
+        
+    } else {
+       document.getElementById("customOption1").style.display = "block";
+        document.getElementById("customOptionKey1").style.display = "block";
+        console.log(document.getElementById.value);
     }
 }
 
@@ -72,12 +74,15 @@ function  setVal() {
     const customOptionKey = document.getElementById("customOptionKey1").value
     const customOutput = customOption+':'+customOptionKey
     document.getElementById("customSelector").value = customOutput
-
-
-   
-   console.log(customOption);
-
 }
+
+function  setVal1() {
+    const customOption = document.getElementById("customOption1").value
+    const customOptionKey = document.getElementById("customOptionKey1").value
+    const customOutput = customOption+':'+customOptionKey
+    document.getElementById("customSelector1").value = customOutput
+}
+
 
 function updateInput1(data){
     document.getElementById("customOption1").value = data;
