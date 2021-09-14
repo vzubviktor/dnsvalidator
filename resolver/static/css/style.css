@@ -406,3 +406,7 @@ table {
     background: white;
 }
 
+tbody {
+    width: 90%;
+    max-width: 500px;
+}

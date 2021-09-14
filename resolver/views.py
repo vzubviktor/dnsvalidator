@@ -72,7 +72,9 @@ def compute_multi(request):
 	for domain in domain_list:
 		result_list = []
 		for record in records:
-			result_list.append(multi_output(domain, record))
+			if record:
+
+				result_list.append(multi_output(domain, record))
 		obj_list.append(result_list)
 
 	return render(request, 'multiple.html', { 'obj_list' : obj_list, 'records' : records})

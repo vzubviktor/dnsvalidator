@@ -129,8 +129,7 @@ def multi_output(domain, record_val):
 			return obj
 
 		elif record_val == '':
-			obj = Domain( record_name = '', record_type= '', record_result =  '', status = '', comment = '' )
-			return obj
+			pass
 
 
 		### create objects for MX records and applies rules
