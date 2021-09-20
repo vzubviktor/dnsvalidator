@@ -65,6 +65,8 @@ def get_ptr(address, record_val):
 ### Get chosen  records for domain, applies rules, creates status and comment 
 	### and create objects to be displayed at front end, 
 
+
+
 def make_objlist(record_val, domain_list):
 	obj_list = []
 
@@ -143,6 +145,14 @@ def multi_output(domain, record_val):
 			stat_and_comm = new_mx_rules(record_result)
 			obj = Domain( record_name = domain, record_type= 'MX', record_result =  record_result, status = stat_and_comm[0], comment = stat_and_comm[1] )
 			return obj
+
+		elif record_val =='LINK':
+			link_answer = get_records(domain,'CNAME')
+			correct_link_answer = domain.replace('.', '-') + '.emarsys.net.'
+			stat_and_comm = linkDomain_rules(link_answer, correct_link_answer)
+			obj = Domain( record_name = domain, record_type= 'CNAME', record_result =  link_answer, status = stat_and_comm[0], comment = stat_and_comm[1] )
+			return obj
+
 
 
 		### create objects for MX records and applies rules
@@ -244,6 +254,14 @@ def multi_output_csv(domain, record_val):
 			record_result = get_records(domain, 'MX')
 			stat_and_comm = new_mx_rules(record_result)
 			obj = Domain( record_name = domain, record_type= 'MX', record_result =  record_result, status = stat_and_comm[0], comment = stat_and_comm[1] )
+			return obj
+
+
+		elif record_val =='LINK':
+			link_answer = get_records(domain,'CNAME')
+			correct_link_answer = domain.replace('.', '-') + '.emarsys.net.'
+			stat_and_comm = linkDomain_rules(link_answer, correct_link_answer)
+			obj = Domain( record_name = domain, record_type= 'CNAME', record_result =  link_answer, status = stat_and_comm[0], comment = stat_and_comm[1] )
 			return obj
 
 
