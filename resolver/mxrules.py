@@ -508,9 +508,12 @@ def new_mx_rules(records):
 			status = 'Unknown'
 			comment = 'Custom Returnpath MX records should be checked with "MX CRP" checkbox'
 		
-		elif 'The DNS' in record:
+		elif 'The DNS'  in record:
 			status = 'Invalid'
 			comment = 'MX record(s) not found'
+		elif 'SERVFAIL' in record:
+			status = 'Unknown'
+			comment = ''
 		else:
 			status = 'Valid'
 			comment = 'Customer domain incoming mail server'

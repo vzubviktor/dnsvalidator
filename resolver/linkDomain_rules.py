@@ -272,7 +272,14 @@ def spf_rules(records):
 	output = []
 	for record in spf_records:
 	
-		if  'include:emarsys.net' in record :
+		if 'include:emarsys.net' in record and 'include:emarsys.us' in record :
+			if 'include:emsmtp.com' in record or 'include:emsmtp.us' in record:
+				status = 'Valid'
+				comment = 'Legacy sender Domain SPF for both CSA and non-CSA'
+			else:
+				status = 'Valid'
+				comment = 'Sender Domain SPF for both CSA and non-CSA'
+		elif  'include:emarsys.net' in record :
 			if 'include:emsmtp.com' in record:
 				status = 'Valid'
 				comment = 'Legacy sender Domain SPF for CSA'
@@ -286,13 +293,7 @@ def spf_rules(records):
 			else:
 				status = 'Valid'
 				comment = 'Sender Domain SPF for non-CSA'
-		elif 'include:emarsys.net' in record and 'include:emarsys.us' in record :
-			if 'include:emsmtp.com' in record or 'include:emsmtp.us' in record:
-				status = 'Valid'
-				comment = 'Legacy sender Domain SPF for both CSA and non-CSA'
-			else:
-				status = 'Valid'
-				comment = 'Sender Domain SPF for both CSA and non-CSA'
+		
 		elif 'include:spf.emarsys.net' in record :
 			status = 'Valid'
 			comment = 'Sender Domain SPF for SAP Emarsys'

@@ -51,14 +51,14 @@ def get_records(domain,record_val):
 
 ### Function to get PTR record 
 
-def get_ptr(address):
+def get_ptr(address, record_val):
 		final_answers=[]
 		try:
 			domain_address = dns.reversename.from_address(address)
 			ptr_record = dns.resolver.resolve(domain_address, 'PTR')[0]
-			final_answers.append(ptr_record)
+			final_answers.append(str(ptr_record))
 		except Exception as e:
-			final_answers.append(e)
+			final_answers.append(str(e))
 		return final_answers
 
 
@@ -183,7 +183,16 @@ def multi_output(domain, record_val):
 			obj = Domain( record_name = dmarc_domain, record_type= 'DMARC', record_result =  dmarc_answer, status = stat_and_comm[0], comment = stat_and_comm[1] )
 			return obj
 
-		
+		### create objects for TXT records 
+
+		elif record_val == 'TXT':
+			record_result = [ i.replace('"','') for i in  get_records(domain, 'TXT')]
+			obj = Domain( record_name = domain,
+			              record_type= 'TXT', 
+			              record_result =  record_result, 
+			              status = '', 
+			              comment = '' )
+			return obj
 
 		### create objects for Custom dkim key and selector records and applies rules
 
@@ -275,7 +284,14 @@ def multi_output_csv(domain, record_val):
 			obj = Domain( record_name = dmarc_domain, record_type= 'DMARC', record_result =  get_records(dmarc_domain, 'TXT'), status = stat_and_comm[0], comment = stat_and_comm[1] )
 			return obj
 
-		
+		elif record_val == 'TXT':
+			record_result = get_records(domain, 'TXT')
+			obj = Domain( record_name = domain,
+			              record_type= 'TXT', 
+			              record_result =  record_result, 
+			              status = '', 
+			              comment = '' )
+			return obj
 
 		### create objects for Custom key and selector records and applies rules
 
