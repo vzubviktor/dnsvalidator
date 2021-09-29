@@ -67,6 +67,7 @@ def compute_multi(request):
 	domains = request.POST['domains']
 	delimitor = request.POST['delimitor']
 	domain_list= domains.split(delimitor)
+	domain_list = [ domain.strip() for domain in domain_list]
 	if request.method == 'POST':
 		records  = request.POST.getlist('records')
 	obj_list = []
