@@ -201,29 +201,30 @@ def key_sender_rules(record_val, key_answer):
 	status = 'Invalid'
 	output = []
 	for answer in key_answer:
+		strippedAnswer = ';'.join(x.strip() for x in answer.split(';'))
 		
 		if record_val == 'key2':
 			valid_key = 'v=DKIM1;k=rsa;p=MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCqFwlkVVM4irVCuSD/bs1ewUWLU/0c8qOdhw4/YXXZugQapNKUpcpmaFwZ3Dw380eIm8fFUfv96ObYEPeDBb32KcOjQfHV6cquwMfnIy7iZtC+3lloRJKKc/fHDgaP81l8fOEwpm7F4jXqa3Qh775JlsrptFfBoMAyQ0XDgUQI1QIDAQAB'
-			if answer == valid_key:
+			if strippedAnswer == valid_key:
 				status = 'Valid'
 				comment = 'DKIM for Emarsys EMEA&APAC'
 
 		elif record_val == 'key4':
 			valid_key = 'v=DKIM1;k=rsa;p=MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQC89LipD0a30WgIjdxc8BLDMsSMUf8HoXJttcZQKn3R5kdsxd2L4DXP/UVJ0/0jQJwljc2eTXJRshlTU7s8Wdu50MsMfBAu7Ky8WNjR867hw7ACpRmessTDgyASj9gOEBCXmEw0rtn3havJkzF/1kAVKhx0get3XdGMHnFA9ya0KwIDAQAB'
-			if answer == valid_key:
+			if strippedAnswer == valid_key:
 				status = 'Valid'
 				comment = 'DKIM for Emarsys AMERICAs'
 
 		elif record_val == 'key5':
 			valid_key = 'v=DKIM1;k=rsa;p=MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCtuwC9wykvNVY0H+4ZBSRtI3ZkNf+BYhxlU066j3FUhOiju0BxS4Px+6T4E2hzIMX9OpTfil8RCYgNSz/XRHGJ/6VYPyiGAGyqvdbiO9wHsbQJ/GREu5rhamsPvoxf0AidaqlpQ8fM6ITe+VbtRMeVGLKlei1St7elNSWt1wijKQIDAQAB'
-			if answer == valid_key:
+			if strippedAnswer == valid_key:
 				status = 'Valid'
 				comment = 'DKIM for Emarsys SAP'
 			
 
 		elif record_val == 'key6':
 			valid_key = 'v=DKIM1;k=rsa;p=MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCpk27eqCMMWoFX72YasAzxzLpld+DECX7ny2bsUknsehh9OkLe2sI0cy38z+CSAQk8X0gGRaiBV6wTZbhpuPgC+DU9oTwyzWY0lKiO3AHctHIDIxVu5iBV0SoNomV42qb5nRzMY+HL/Ri+Ul8RQj3YFsBluRhvuG1AtfL2oXD9YwIDAQAB'
-			if answer == valid_key:
+			if strippedAnswer == valid_key:
 				status = 'Valid'
 				comment = 'DKIM for Emarsys SAP'
 
